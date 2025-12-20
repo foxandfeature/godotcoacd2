@@ -1,0 +1,5 @@
+build
+src/gen
+.vscode
+.sconsign.dblite
+*.os

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CoACD" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Performs convex decomposition on 3D meshes using the COACD algorithm.
+	</brief_description>
+	<description>
+		The [CoACD] class provides access to the COACD convex decomposition pipeline.
+		It takes a 3D triangle mesh and produces a set of convex parts that approximate the original geometry while respecting user-defined concavity and preprocessing settings.
+		[b]This class requires a valid mesh resource to run decomposition.[/b]
+		[codeblocks]
+		[gdscript]
+		func _ready() -&gt; void:
+		    # Initialize thread and settings
+		    var thread := Thread.new()
+		    var settings := CoACDSettings.new()
+
+		    # Set log level
+		    CoACD.log_level = CoACD.INFO
+
+		    # Create mesh and its trimesh shape
+		    var mesh := TorusMesh.new()
+		    var trimesh := mesh.create_trimesh_shape()
+
+		    # Start thread for convex decomposition
+		    thread.start(func() -&gt; void:
+		        var convex_shapes := CoACD.convex_decomposition(trimesh, settings)
+
+		        for shape in convex_shapes:
+		            var collision_shape := CollisionShape3D.new()
+		            collision_shape.shape = shape
+		            # Use call_deferred to safely add to scene tree from thread
+		            call_deferred("add_child", collision_shape)
+		    )
+		[/gdscript]
+		[/codeblocks]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="convex_decomposition">
+			<return type="Array" />
+			<param index="0" name="mesh" type="ConcavePolygonShape3D" />
+			<param index="1" name="settings" type="CoACDSettings" default="null" />
+			<description>
+				Runs the convex decomposition algorithm using the given [code]mesh[/code] and [code]settings[/code]. Returns an [Array] of convex hulls, where each element is a [ConvexPolygonShape3D] that represents one decomposed part of the input mesh.
+				The quality and number of convex hulls depend heavily on the values set in [CoACDSettings].
+				If logging is enabled, the method emits [signal new_log] for each log message generated during processing.
+				[b]Important Mesh Requirements:[/b] The input mesh must be watertight and manifold to ensure proper decomposition. Every edge should appear exactly twice (once in each direction) so that triangles have consistent winding and the geometry has no gaps or holes.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="log_level" type="int" setter="set_log_level" getter="get_log_level" enum="CoACD.LogLevels" default="3">
+			Sets the minimum log level that will be emitted through [signal new_log]. Messages below this level are ignored.
+		</member>
+		<member name="print_to_console" type="bool" setter="set_print_to_console" getter="get_print_to_console" default="true">
+			When enabled, log messages are also printed to the engine console in addition to being emitted via [signal new_log].
+		</member>
+	</members>
+	<signals>
+		<signal name="new_log">
+			<param index="0" name="log" type="String" />
+			<param index="1" name="log_level" type="int" />
+			<description>
+				Emitted whenever the COACD backend generates a log message.
+				[code]log[/code] contains the text of the message.
+				[code]log_level[/code] indicates its severity according to [enum CoACD.LogLevels].
+			</description>
+		</signal>
+	</signals>
+	<constants>
+		<constant name="OFF" value="0" enum="LogLevels">
+		</constant>
+		<constant name="DEBUG" value="1" enum="LogLevels">
+		</constant>
+		<constant name="INFO" value="2" enum="LogLevels">
+		</constant>
+		<constant name="WARNING" value="3" enum="LogLevels">
+		</constant>
+		<constant name="ERROR" value="4" enum="LogLevels">
+		</constant>
+		<constant name="CRITICAL" value="5" enum="LogLevels">
+		</constant>
+	</constants>
+</class>

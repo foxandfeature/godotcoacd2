@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CoACDSettings" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Settings container for the COACD convex decomposition algorithm.
+	</brief_description>
+	<description>
+		This resource stores all configuration parameters used by the COACD convex decomposition system.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="approximation_mode" type="int" setter="set_approximation_mode" getter="get_approximation_mode" enum="CoACDSettings.ApproximationModes" default="0">
+			Selects the shape type used for approximating convex parts. The default is standard convex hulls ([constant CONVEX]).
+			Using [constant BOX] produces box-like approximations and may require increasing the concavity threshold (usually around [code]2[/code] times).
+		</member>
+		<member name="decimate" type="bool" setter="set_decimate" getter="get_decimate" default="false">
+			Enables decimation by limiting the maximum number of vertices in each convex hull. Must be enabled for [member max_ch_vertex] to apply.
+		</member>
+		<member name="extrude" type="bool" setter="set_extrude" getter="get_extrude" default="false">
+			Enables extrusion of neighboring convex hulls along overlapping faces. Controlled by [member extrude_margin].
+		</member>
+		<member name="extrude_margin" type="float" setter="set_extrude_margin" getter="get_extrude_margin" default="0.01">
+			Extrusion margin distance used when [member extrude] is enabled.
+		</member>
+		<member name="max_ch_vertex" type="int" setter="set_max_ch_vertex" getter="get_max_ch_vertex" default="256">
+			Sets the maximum allowed number of vertices for each convex hull when [member decimate] is enabled.
+		</member>
+		<member name="max_convex_hulls" type="int" setter="set_max_convex_hulls" getter="get_max_convex_hulls" default="-1">
+			Maximum number of convex hulls allowed in the result. A value of [code]-1[/code] removes the limit. Only effective when [member merge_postprocessing] is enabled. Limiting the hull count may produce hulls exceeding the concavity threshold.
+		</member>
+		<member name="mcts_iterations" type="int" setter="set_mcts_iterations" getter="get_mcts_iterations" default="150">
+			Number of Monte-Carlo Tree Search iterations used during decomposition.
+			Recommended range: [code]60–2000[/code].
+		</member>
+		<member name="mcts_max_depth" type="int" setter="set_mcts_max_depth" getter="get_mcts_max_depth" default="3">
+			Maximum search depth of the MCTS decomposition tree.
+			Recommended range: [code]2–7[/code].
+		</member>
+		<member name="mcts_nodes" type="int" setter="set_mcts_nodes" getter="get_mcts_nodes" default="20">
+			Maximum number of child nodes in MCTS.
+			Recommended range: [code]10–40[/code].
+		</member>
+		<member name="merge_postprocessing" type="bool" setter="set_merge_postprocessing" getter="get_merge_postprocessing" default="true">
+			Enables merge postprocessing, which attempts to combine hulls while respecting the concavity threshold.
+		</member>
+		<member name="pca" type="bool" setter="set_pca" getter="get_pca" default="false">
+			Enables PCA alignment preprocessing.
+		</member>
+		<member name="preprocess_mode" type="int" setter="set_preprocess_mode" getter="get_preprocess_mode" enum="CoACDSettings.PreprocessModes" default="2">
+			Sets the preprocessing mode used for manifold repair.
+			[constant AUTO] automatically decides based on input mesh manifoldness, [constant ON] forces preprocessing, and [constant OFF] disables it entirely.
+		</member>
+		<member name="preprocess_resolution" type="int" setter="set_preprocess_resolution" getter="get_preprocess_resolution" default="50">
+			Resolution used for manifold preprocessing.
+			Recommended range is [code]20–100[/code].
+			Valid range is [code]5–1000[/code].
+		</member>
+		<member name="sample_resolution" type="int" setter="set_sample_resolution" getter="get_sample_resolution" default="2000">
+			Number of samples used to compute Hausdorff distance for concavity measurement.
+			Recommended range: [code]1000–10000[/code].
+		</member>
+		<member name="seed" type="int" setter="set_seed" getter="get_seed" default="0">
+			Seed for sampling.
+		</member>
+		<member name="threshold" type="float" setter="set_threshold" getter="get_threshold" default="0.05">
+			Concavity threshold controlling when decomposition terminates. Lower values produce more accurate but more numerous hulls.
+			Valid range: [code]0.01–1[/code].
+		</member>
+	</members>
+	<constants>
+		<constant name="AUTO" value="0" enum="PreprocessModes">
+			Automatically determines whether preprocessing is needed based on input mesh manifoldness.
+		</constant>
+		<constant name="ON" value="1" enum="PreprocessModes">
+			Always perform manifold preprocessing.
+		</constant>
+		<constant name="OFF" value="2" enum="PreprocessModes">
+			Disable manifold preprocessing entirely.
+		</constant>
+		<constant name="CONVEX" value="0" enum="ApproximationModes">
+			Standard convex hull decomposition mode.
+		</constant>
+		<constant name="BOX" value="1" enum="ApproximationModes">
+			Box approximation mode (cube-like hulls). Often requires increasing threshold.
+		</constant>
+	</constants>
+</class>
