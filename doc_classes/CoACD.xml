@@ -15,7 +15,7 @@
 		    var settings := CoACDSettings.new()
 
 		    # Set log level
-		    CoACD.log_level = CoACD.INFO
+		    CoACD.log_level = CoACD.LOG_INFO
 
 		    # Create mesh and its trimesh shape
 		    var mesh := TorusMesh.new()

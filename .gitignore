@@ -3,3 +3,4 @@ src/gen
 .vscode
 .sconsign.dblite
 *.os
+*.obj

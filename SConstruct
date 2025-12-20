@@ -1,22 +1,27 @@
 #!/usr/bin/env python3
+
 import os
 import sys
 import shutil
 import subprocess
 
 # -------------------------------------------------------------------
-# Configuration
+# Paths & configuration
 # -------------------------------------------------------------------
 
-COACD_BUILD_DIR = "CoACD-godot-src/build"
-ADDONS_SRC = "addons"
+ROOT_DIR = os.getcwd()
 
+COACD_SRC_DIR = "CoACD-godot-src"
+COACD_BUILD_DIR = os.path.join(COACD_SRC_DIR, "build")
+
+ADDONS_SRC = "addons"
 BUILD_DIR = "build"
 ADDONS_DIR = os.path.join(BUILD_DIR, "addons")
 PLUGIN_DIR = os.path.join(ADDONS_DIR, "godotcoacd")
 BIN_DIR = os.path.join(PLUGIN_DIR, "bin")
 
 LICENSE_SRC = "LICENSE.txt"
+THIRD_PARTY_LICENSE_DIR = os.path.join(PLUGIN_DIR, "third-party-licenses")
 
 THIRD_PARTY_LICENSES = {
     "boost": [
@@ -33,16 +38,54 @@ THIRD_PARTY_LICENSES = {
         "CoACD-godot-src/build/_deps/tbb-src/third-party-programs.txt",
     ],
 }
-THIRD_PARTY_LICENSE_DIR = os.path.join(PLUGIN_DIR, "third-party-licenses")
 
 # -------------------------------------------------------------------
-# Directory setup
+# Helpers
 # -------------------------------------------------------------------
 
-os.makedirs(COACD_BUILD_DIR, exist_ok=True)
 
-# Copy extension descriptor
-shutil.copytree(ADDONS_SRC, ADDONS_DIR, dirs_exist_ok=True)
+def run(cmd, cwd):
+    subprocess.run(cmd, cwd=cwd, check=True)
+
+
+def ensure_dirs():
+    os.makedirs(COACD_BUILD_DIR, exist_ok=True)
+    os.makedirs(BIN_DIR, exist_ok=True)
+
+
+def copy_addons():
+    shutil.copytree(ADDONS_SRC, ADDONS_DIR, dirs_exist_ok=True)
+
+
+def copy_third_party_licenses():
+    """Copy third-party license files into subfolders."""
+    os.makedirs(THIRD_PARTY_LICENSE_DIR, exist_ok=True)
+
+    for lib, files in THIRD_PARTY_LICENSES.items():
+        dest = os.path.join(THIRD_PARTY_LICENSE_DIR, lib)
+        os.makedirs(dest, exist_ok=True)
+
+        for src in files:
+            name = os.path.splitext(os.path.basename(src))[0] + ".txt"
+            shutil.copy2(src, os.path.join(dest, name))
+
+
+def build_coacd(cmake_args, build_cmd):
+    if GetOption("clean"):
+        return
+    if ARGUMENTS.get("skip_coacd_build", "false") == "true":
+        return
+
+    run(["cmake", "..", *cmake_args], cwd=COACD_BUILD_DIR)
+    run(build_cmd, cwd=COACD_BUILD_DIR)
+
+
+# -------------------------------------------------------------------
+# Setup
+# -------------------------------------------------------------------
+
+ensure_dirs()
+copy_addons()
 
 # Load Godot C++ environment
 env = SConscript("godot-cpp/SConstruct")
@@ -51,129 +94,122 @@ env = SConscript("godot-cpp/SConstruct")
 # Build configuration
 # -------------------------------------------------------------------
 
-# Include paths
-env.Append(CPPPATH=[
-    "src/",
-    "CoACD-godot-src/build/_deps/spdlog-src/include",
-])
+env.Append(
+    CPPPATH=[
+        "src/",
+        "CoACD-godot-src/build/_deps/spdlog-src/include",
+    ]
+)
 
-# Source files
-sources = [Glob("src/*.cpp")]
+env.Append(
+    LIBPATH=[
+        COACD_BUILD_DIR,
+        os.path.join(COACD_BUILD_DIR, "Release"),
+        os.path.join(COACD_BUILD_DIR, "_deps/spdlog-build"),
+        os.path.join(COACD_BUILD_DIR, "_deps/spdlog-build/Release"),
+        os.path.join(COACD_BUILD_DIR, "_deps/openvdb-build/openvdb/openvdb"),
+        os.path.join(COACD_BUILD_DIR, "_deps/openvdb-build/openvdb/openvdb/Release"),
+        os.path.join(COACD_BUILD_DIR, "appleclang_17.0_cxx20_64_release"),
+        os.path.join(COACD_BUILD_DIR, "msvc_19.44_cxx20_64_mt_release"),
+    ]
+)
 
-# Library paths
-env.Append(LIBPATH=[
-    COACD_BUILD_DIR,
-    os.path.join(COACD_BUILD_DIR, "_deps/spdlog-build"),
-    os.path.join(COACD_BUILD_DIR, "_deps/openvdb-build/openvdb/openvdb"),
-    os.path.join(COACD_BUILD_DIR, "appleclang_17.0_cxx20_64_release"),
-])
+env.Append(LIBS=["coacd", "spdlog"])
 
-# Libraries
-env.Append(LIBS=["coacd", "spdlog", "openvdb", "tbb"])
-
-# Compiler flags
-env.Append(CXXFLAGS=["-fexceptions"])
-
-platform = ""
-
-def copy_third_party_licenses():
-    """Copy each third-party license file into its own subfolder, preserving filenames."""
-    os.makedirs(THIRD_PARTY_LICENSE_DIR, exist_ok=True)
-
-    for lib_name, src_list in THIRD_PARTY_LICENSES.items():
-        dest_dir = os.path.join(THIRD_PARTY_LICENSE_DIR, lib_name)
-        os.makedirs(dest_dir, exist_ok=True)
-
-        for src_path in src_list:
-            base = os.path.splitext(os.path.basename(src_path))[0]
-            dest_path = os.path.join(dest_dir, base + ".txt")
-
-            shutil.copy2(src_path, dest_path)
+sources = list(Glob("src/*.cpp"))
+platform = None
 
 # -------------------------------------------------------------------
-# macOS: build CoACD-godot-src dependency
+# Platform-specific configuration
 # -------------------------------------------------------------------
 
 if sys.platform == "darwin":
     platform = "macos"
-    if (
-        not GetOption("clean")
-        and ARGUMENTS.get("skip_coacd_build", "false") != "true"
-    ):
-        subprocess.run(
-            [
-                "cmake",
-                "..",
-                "-DCMAKE_BUILD_TYPE=Release",
-                "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
-            ],
-            cwd=COACD_BUILD_DIR,
-            check=True,
-        )
-        subprocess.run(
-            ["make", "main", "-j"],
-            cwd=COACD_BUILD_DIR,
-            check=True,
-        )
+
+    env.Append(CXXFLAGS=["-fexceptions"], LIBS=["openvdb", "tbb", "spdlog"])
+
+    build_coacd(
+        cmake_args=[
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+        ],
+        build_cmd=["make", "main", "-j"],
+    )
+
+elif sys.platform == "win32":
+    platform = "windows"
+
+    env.Append(
+        CXXFLAGS=["/EHsc"],
+        CPPDEFINES=["SPDLOG_COMPILED_LIB"],
+        LIBS=["libopenvdb", "tbb12"],
+    )
+
+    build_coacd(
+        cmake_args=[
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded",
+            "-DOPENVDB_CORE_SHARED=OFF",
+            "-DTBB_TEST=OFF",
+            "-DCMAKE_CXX_FLAGS=/MT",
+            "-DCMAKE_CXX_FLAGS=/EHsc",
+            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+        ],
+        build_cmd=[
+            "cmake",
+            "--build",
+            ".",
+            "--target",
+            "main",
+            "--config",
+            "Release",
+        ],
+    )
 
 # -------------------------------------------------------------------
-# Optional: generate documentation sources
+# Documentation
 # -------------------------------------------------------------------
 
 shutil.copy(LICENSE_SRC, PLUGIN_DIR)
 copy_third_party_licenses()
 
-if env["target"] in ["editor", "template_debug"]:
+if env["target"] in ("editor", "template_debug"):
     try:
-        doc_data = env.GodotCPPDocData(
+        doc = env.GodotCPPDocData(
             "src/gen/doc_data.gen.cpp",
             source=Glob("doc_classes/*.xml"),
         )
-        sources.append(doc_data)
+        sources.append(doc)
     except AttributeError:
-        print("Not including class reference (pre-4.3 baseline).")
+        print("Class reference generation not supported.")
 
 # -------------------------------------------------------------------
-# Build library target
+# Build output
 # -------------------------------------------------------------------
 
 if platform == "macos":
-    print(env["CCFLAGS"])
     library = env.SharedLibrary(
         os.path.join(
             BIN_DIR,
-            "libgodotcoacd.{0}.{1}.framework/libgodotcoacd.{0}.{1}".format(
-                platform, env["target"]
-            ),
+            f"libgodotcoacd.{platform}.{env['target']}.framework/"
+            f"libgodotcoacd.{platform}.{env['target']}",
         ),
         source=sources,
     )
-
 elif platform == "ios":
-    if env.get("ios_simulator"):
-        library = env.StaticLibrary(
-            os.path.join(
-                BIN_DIR,
-                "libgodotcoacd.{0}.{1}.simulator.a".format(
-                    platform, env["target"]
-                ),
-            ),
-            source=sources,
-        )
-    else:
-        library = env.StaticLibrary(
-            os.path.join(
-                BIN_DIR,
-                "libgodotcoacd.{0}.{1}.a".format(platform, env["target"])
-            ),
-            source=sources,
-        )
-
+    suffix = ".simulator.a" if env.get("ios_simulator") else ".a"
+    library = env.StaticLibrary(
+        os.path.join(
+            BIN_DIR,
+            f"libgodotcoacd.{platform}.{env['target']}{suffix}",
+        ),
+        source=sources,
+    )
 else:
     library = env.SharedLibrary(
         os.path.join(
             BIN_DIR,
-            "libgodotcoacd{0}{1}".format(env["suffix"], env["SHLIBSUFFIX"])
+            f"libgodotcoacd{env['suffix']}{env['SHLIBSUFFIX']}",
         ),
         source=sources,
     )
@@ -182,17 +218,20 @@ else:
 # Packaging
 # -------------------------------------------------------------------
 
-def cleanup(target, source, env):
-    """Archive build and clean up temporary files."""
-    archive_path = os.path.join(BUILD_DIR, "GodotCoACD")
+
+def package(target, source, env):
     shutil.make_archive(
-        archive_path,
+        os.path.join(BUILD_DIR, "GodotCoACD"),
         "zip",
         root_dir=BUILD_DIR,
         base_dir="addons",
     )
 
-zip_file = os.path.join(BUILD_DIR, "GodotCoACD-godot-src.zip")
-zip_target = Command(zip_file, library, cleanup)
 
-Default([zip_target])
+zip_target = Command(
+    os.path.join(BUILD_DIR, "GodotCoACD-godot-src.zip"),
+    library,
+    package,
+)
+
+Default(zip_target)

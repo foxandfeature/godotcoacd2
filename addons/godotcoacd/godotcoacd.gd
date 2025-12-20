@@ -11,7 +11,7 @@ var settings := CoACDSettings.new()
 var settings_button: Button = preload("./ui/settings_button.tscn").instantiate()
 
 func _enable_plugin() -> void:
-	CoACD.log_level = CoACD.INFO
+	CoACD.log_level = CoACD.LOG_INFO
 
 func _disable_plugin() -> void:
 	pass
@@ -70,7 +70,7 @@ func confirm() -> void:
 
 	var selected_meshes := EditorInterface.get_selection().get_selected_nodes()
 	for mesh_instance: MeshInstance3D in selected_meshes:
-		var parent: Node = mesh_instance
+		var parent: Node = mesh_instance.get_parent()
 
 		if shape_placement.selected == 1:
 			parent = StaticBody3D.new()

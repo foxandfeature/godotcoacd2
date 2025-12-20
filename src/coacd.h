@@ -25,12 +25,12 @@ namespace godot
 
 		enum LogLevels
 		{
-			OFF,
-			DEBUG,
-			INFO,
-			WARNING,
-			ERROR,
-			CRITICAL
+			LOG_OFF,
+			LOG_DEBUG,
+			LOG_INFO,
+			LOG_WARNING,
+			LOG_ERROR,
+			LOG_CRITICAL
 		};
 
 		Array convex_decomposition(const Ref<ConcavePolygonShape3D> mesh, const Ref<CoACDSettings> = Ref<CoACDSettings>());
@@ -42,7 +42,7 @@ namespace godot
 		bool get_print_to_console();
 
 	private:
-		LogLevels log_level = WARNING;
+		LogLevels log_level = LOG_WARNING;
 		bool print_to_console = true;
 	};
 

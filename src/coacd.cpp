@@ -26,23 +26,23 @@ namespace
             {
             case spdlog::level::trace:
             case spdlog::level::debug:
-                level = CoACD::DEBUG;
+                level = CoACD::LOG_DEBUG;
                 break;
             case spdlog::level::info:
-                level = CoACD::INFO;
+                level = CoACD::LOG_INFO;
                 break;
             case spdlog::level::warn:
-                level = CoACD::WARNING;
+                level = CoACD::LOG_WARNING;
                 break;
             case spdlog::level::err:
-                level = CoACD::ERROR;
+                level = CoACD::LOG_ERROR;
                 break;
             case spdlog::level::critical:
-                level = CoACD::CRITICAL;
+                level = CoACD::LOG_CRITICAL;
                 break;
             case spdlog::level::off:
             default:
-                level = CoACD::OFF;
+                level = CoACD::LOG_OFF;
                 break;
             }
             CoACD *coacd_instance = CoACD::instance;
@@ -51,17 +51,17 @@ namespace
             {
                 switch (level)
                 {
-                case CoACD::DEBUG:
+                case CoACD::LOG_DEBUG:
                     UtilityFunctions::print_verbose(log_str);
                     break;
-                case CoACD::INFO:
+                case CoACD::LOG_INFO:
                     UtilityFunctions::print(log_str);
                     break;
-                case CoACD::WARNING:
+                case CoACD::LOG_WARNING:
                     UtilityFunctions::push_warning(log_str);
                     break;
-                case CoACD::ERROR:
-                case CoACD::CRITICAL:
+                case CoACD::LOG_ERROR:
+                case CoACD::LOG_CRITICAL:
                     UtilityFunctions::push_error(log_str);
                     break;
                 default:
@@ -79,12 +79,12 @@ void CoACD::_bind_methods()
 
     ClassDB::bind_method(D_METHOD("set_log_level", "p_log_level"), &CoACD::set_log_level);
     ClassDB::bind_method(D_METHOD("get_log_level"), &CoACD::get_log_level);
-    BIND_ENUM_CONSTANT(OFF);
-    BIND_ENUM_CONSTANT(DEBUG);
-    BIND_ENUM_CONSTANT(INFO);
-    BIND_ENUM_CONSTANT(WARNING);
-    BIND_ENUM_CONSTANT(ERROR);
-    BIND_ENUM_CONSTANT(CRITICAL);
+    BIND_ENUM_CONSTANT(LOG_OFF);
+    BIND_ENUM_CONSTANT(LOG_DEBUG);
+    BIND_ENUM_CONSTANT(LOG_INFO);
+    BIND_ENUM_CONSTANT(LOG_WARNING);
+    BIND_ENUM_CONSTANT(LOG_ERROR);
+    BIND_ENUM_CONSTANT(LOG_CRITICAL);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "log_level", PROPERTY_HINT_ENUM, "OFF,DEBUG,INFO,WARNING,ERROR,CRITICAL"), "set_log_level", "get_log_level");
 
     ClassDB::bind_method(D_METHOD("set_print_to_console", "p_print_to_console"), &CoACD::set_print_to_console);
@@ -261,22 +261,22 @@ void CoACD::set_log_level(LogLevels p_log_level)
     std::string_view level_name;
     switch (log_level)
     {
-    case OFF:
+    case LOG_OFF:
         level_name = "off";
         break;
-    case DEBUG:
+    case LOG_DEBUG:
         level_name = "debug";
         break;
-    case INFO:
+    case LOG_INFO:
         level_name = "info";
         break;
-    case WARNING:
+    case LOG_WARNING:
         level_name = "warning";
         break;
-    case ERROR:
+    case LOG_ERROR:
         level_name = "error";
         break;
-    case CRITICAL:
+    case LOG_CRITICAL:
         level_name = "critical";
         break;
     default:
