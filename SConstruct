@@ -195,6 +195,12 @@ elif sys.platform == "win32" and env["platform"] == "windows":
     ]
     build_cmd = ["cmake", "--build", ".", "--target", "main", "--config", "Release"]
 
+else:
+    raise RuntimeError(
+        f"Unsupported system platform '{sys.platform}' "
+        f"and target platform '{env['platform']}'"
+    )
+
 build_coacd(cmake_args, build_cmd)
 
 # -------------------------------------------------------------------
