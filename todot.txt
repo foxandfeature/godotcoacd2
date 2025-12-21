@@ -1,0 +1,17 @@
+compile:
+    macos -> android
+
+    linux -> windows
+    macos -> windows
+
+    linux -> macos
+
+    macos -> ios
+
+    windows, linux, mac -> web
+
+    (linux -> RISC-V)
+    (linux -> ios)
+
+
+    32 bit?
