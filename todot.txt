@@ -1,17 +1,97 @@
-compile:
-    macos -> android
+windows:
+    from windows:
+        MSCV:
+            [x] arch=x86_32
+            [x] arch=x86_64
+            [x] arch=arm64
+        MinGW:
+            [] arch=x86_32
+            [] arch=x86_64
+            [] arch=arm64
+            [] arch=arm32
+        MinGW-LLVM:
+            [] arch=x86_32
+            [] arch=x86_64
+            [] arch=arm64
+            [] arch=arm32
+    from linux:
+        MinGW:
+            [] arch=x86_32
+            [] arch=x86_64
+            [] arch=arm64
+            [] arch=arm32
+        MinGW-LLVM:
+            [] arch=x86_32
+            [] arch=x86_64
+            [] arch=arm64
+            [] arch=arm32
+    from macos:
+        MinGW:
+            [] arch=x86_32
+            [] arch=x86_64
+            [] arch=arm64
+            [] arch=arm32
+        MinGW-LLVM:
+            [] arch=x86_32
+            [] arch=x86_64
+            [] arch=arm64
+            [] arch=arm32
 
-    linux -> windows
-    macos -> windows
+linux:
+    from linux:
+        (maybe ion the future: Clang and LLD and Mold)
+        [] arch=x86_32
+        [] arch=x86_64
+        [] arch=arm64
+        [] arch=arm32
+        [] arch=rv64
+        [] arch=rv32
 
-    linux -> macos
+macos:
+    from macos:
+        [] arch=x86_32
+        [] arch=x86_64
+        [] arch=arm64
+        [] arch=arm32
+    from linux:
+        [] arch=x86_32
+        [] arch=x86_64
+        [] arch=arm64
+        [] arch=arm32
 
-    macos -> ios
+android:
+    from windows:
+        [] arch=x86_32
+        [] arch=x86_64
+        [] arch=arm64
+        [] arch=arm32
+    from macos:
+        [] arch=x86_32
+        [] arch=x86_64
+        [] arch=arm64
+        [] arch=arm32
+    from linux:
+        [] arch=x86_32
+        [] arch=x86_64
+        [] arch=arm64
+        [] arch=arm32
 
-    windows, linux, mac -> web
+ios:
+    from macos:
+        [] arch=x86_32
+        [] arch=x86_64
+        [] arch=arm64
+        [] arch=arm32
+    from linux:
+        [] arch=x86_32
+        [] arch=x86_64
+        [] arch=arm64
+        [] arch=arm32
 
-    (linux -> RISC-V)
-    (linux -> ios)
-
-
-    32 bit?
+web:
+    from windows:
+        []
+    from macos:
+        []
+    from linux:
+        []

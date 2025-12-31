@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import re
 import sys
 import shutil
 import subprocess
@@ -71,25 +72,30 @@ def build_coacd(cmake_args, build_cmd):
     run(build_cmd, cwd=COACD_BUILD_DIR)
 
 
-def find_tbb_build_dir(prefixes, runtime=None):
-    prefixes = {prefixes} if isinstance(prefixes, str) else set(prefixes)
-    release_match = None
+def find_tbb_build_dir(prefix, runtime=None):
+    ARCH_MAP = {
+        "arm32": 32,
+        "arm64": 64,
+        "x86_32": 32,
+        "x86_64": 64,
+    }
+
+    bitness = ARCH_MAP.get(env.get("arch"))
+    if bitness is None:
+        return None
+
     try:
         for entry in os.scandir(COACD_BUILD_DIR):
             if not entry.is_dir():
                 continue
-            name = entry.name.lower()
-            if "cxx20_64" not in name or name.split("_", 1)[0] not in prefixes:
-                continue
-            if runtime and "msvc" in name and f"_{runtime}_" not in name:
-                continue
-            if name.endswith("relwithdebinfo"):
+
+            if re.search(
+                rf"^{prefix}_.*_cxx20_{bitness}_{runtime + '_' if runtime else ''}release$",
+                entry.name,
+            ):
                 return entry.path
-            if name.endswith("release"):
-                release_match = entry.path
     except FileNotFoundError:
         return None
-    return release_match
 
 
 # -------------------------------------------------------------------
@@ -154,7 +160,16 @@ def get_android_abi():
         "arm64": "arm64-v8a",
         "x86_32": "x86",
         "x86_64": "x86_64",
-    }.get(ARGUMENTS.get("arch", ""), "")
+    }.get(env["arch"])
+
+
+def get_windows_cmake_arch():
+    return {
+        "x86_64": "x64",
+        "x86_32": "Win32",
+        "arm64": "ARM64",
+        # arm32 is intentionally not supported by MSVC
+    }.get(env["arch"])
 
 
 cmake_args = []
@@ -177,6 +192,7 @@ if env["platform"] == "android":
             "-DCMAKE_CXX_FLAGS=-Wno-error=unknown-warning-option",
             "-DCMAKE_C_FLAGS=-Wno-error=unknown-warning-option",
         ]
+        pass
     build_cmd = ["cmake", "--build", ".", "--target", "main", "--config", "Release"]
 
 # Non-Android setups
@@ -193,6 +209,16 @@ elif sys.platform == "win32" and env["platform"] == "windows":
         "-DCMAKE_CXX_FLAGS=/MT /EHsc",
         "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
     ]
+   
+    if env["arch"] == "arm64":
+        cmake_args += ["-DCMAKE_CXX_FLAGS=\"-DBT_USE_NEON \""]
+
+    win_arch = get_windows_cmake_arch()
+    if not win_arch:
+        raise RuntimeError(f"Unsupported Windows architecture '{env['arch']}'. ")
+
+    cmake_args += ["-A", win_arch]
+
     build_cmd = ["cmake", "--build", ".", "--target", "main", "--config", "Release"]
 
 else:
@@ -217,7 +243,10 @@ tbb_map = {
 
 key = (env["platform"], sys.platform)
 tbb_arg = tbb_map[key]
-tbb_build_dir = find_tbb_build_dir(tbb_arg)
+if isinstance(tbb_arg, tuple):
+    tbb_build_dir = find_tbb_build_dir(*tbb_arg)
+else:
+    tbb_build_dir = find_tbb_build_dir(tbb_arg)
 
 if not tbb_build_dir:
     raise RuntimeError("TBB folder not found")
