@@ -65,10 +65,10 @@ def copy_third_party_licenses():
             )
 
 
-def build_coacd(cmake_args, build_cmd):
+def build_coacd(cmake_cmd, build_cmd):
     if GetOption("clean") or ARGUMENTS.get("skip_coacd_build", "false") == "true":
         return
-    run(["cmake", "..", *cmake_args], cwd=COACD_BUILD_DIR)
+    run(cmake_cmd, cwd=COACD_BUILD_DIR)
     run(build_cmd, cwd=COACD_BUILD_DIR)
 
 
@@ -125,25 +125,31 @@ env.Append(
         os.path.join(COACD_BUILD_DIR, "_deps/openvdb-build/openvdb/openvdb"),
         os.path.join(COACD_BUILD_DIR, "_deps/openvdb-build/openvdb/openvdb/Release"),
     ],
-    LIBS=["coacd", "spdlog"],
 )
+
 
 sources = list(Glob("src/*.cpp"))
 
 # Platform-specific flags
 platform_flags = {
-    "unix": {"CXXFLAGS": ["-fexceptions"], "LIBS": ["openvdb", "tbb"]},
+    "unix": {
+        "CXXFLAGS": ["-fexceptions"],
+        "LIBS": ["coacd", "openvdb", "tbb", "spdlog"],
+    },
     "windows": {
         "CXXFLAGS": ["/EHsc"],
         "CPPDEFINES": ["SPDLOG_COMPILED_LIB"],
-        "LIBS": ["libopenvdb", "tbb12"],
+        "LIBS": ["coacd", "libopenvdb", "tbb12", "spdlog"],
     },
+    "web": {"LIBS": ["coacd"], "CPPDEFINES": ["SPDLOG_NO_EXCEPTIONS"]},
 }
 
 if env["platform"] in ("macos", "linux", "android"):
     env.Append(**platform_flags["unix"])
 elif env["platform"] == "windows":
     env.Append(**platform_flags["windows"])
+elif env["platform"] == "web":
+    env.Append(**platform_flags["web"])
 
 # -------------------------------------------------------------------
 # CoACD Build
@@ -172,14 +178,16 @@ def get_windows_cmake_arch():
     }.get(env["arch"])
 
 
-cmake_args = []
+cmake_cmd = []
 build_cmd = []
 
 # Common Android setup
 if env["platform"] == "android":
     NDK = get_android_ndk()
     ABI = get_android_abi()
-    cmake_args = [
+    cmake_cmd = [
+        "cmake",
+        "..",
         "-G Ninja",
         "-DCMAKE_BUILD_TYPE=Release",
         f"-DCMAKE_TOOLCHAIN_FILE={NDK}/build/cmake/android.toolchain.cmake",
@@ -188,69 +196,105 @@ if env["platform"] == "android":
         "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
     ]
     if sys.platform == "win32":
-        cmake_args += [
+        cmake_cmd += [
             "-DCMAKE_CXX_FLAGS=-Wno-error=unknown-warning-option",
-            "-DCMAKE_C_FLAGS=-Wno-error=unknown-warning-option",
+            # "-DCMAKE_C_FLAGS=-Wno-error=unknown-warning-option",
         ]
         pass
     build_cmd = ["cmake", "--build", ".", "--target", "main", "--config", "Release"]
 
 # Non-Android setups
 elif sys.platform in ("darwin", "linux") and env["platform"] in ("macos", "linux"):
-    cmake_args = ["-DCMAKE_BUILD_TYPE=Release", "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"]
+    cmake_cmd = [
+        "cmake",
+        "..",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+    ]
     build_cmd = ["make", "main", "-j"]
 
 elif sys.platform == "win32" and env["platform"] == "windows":
-    cmake_args = [
+    cmake_cmd = [
+        "cmake",
+        "..",
         "-DCMAKE_BUILD_TYPE=Release",
         "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded",
-        "-DTBB_TEST=OFF",
-        "-DOPENVDB_CORE_SHARED=OFF",
+        # "-DTBB_TEST=OFF",
+        # "-DOPENVDB_CORE_SHARED=OFF",
         "-DCMAKE_CXX_FLAGS=/MT /EHsc",
         "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
     ]
-   
-    if env["arch"] == "arm64":
-        cmake_args += ["-DCMAKE_CXX_FLAGS=\"-DBT_USE_NEON \""]
 
     win_arch = get_windows_cmake_arch()
     if not win_arch:
         raise RuntimeError(f"Unsupported Windows architecture '{env['arch']}'. ")
 
-    cmake_args += ["-A", win_arch]
+    cmake_cmd += ["-A", win_arch]
 
     build_cmd = ["cmake", "--build", ".", "--target", "main", "--config", "Release"]
 
+elif env["platform"] == "web":
+    cmake_cmd = [
+        "cmd",
+        "/c",
+        "emcmake",
+        "cmake",
+        "..",
+        "-DCMAKE_BUILD_TYPE=Release",
+        # "-DOPENVDB_CORE_SHARED=OFF",
+        # "-DTBB_TEST=OFF",
+        "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+        "-DCMAKE_SKIP_INSTALL_RULES=ON",
+        "-DCMAKE_CXX_FLAGS=-Wno-error=unknown-warning-option "
+        "-Wno-missing-template-arg-list-after-template-kw "
+        "-Wno-unknown-warning-option "
+        "-s USE_PTHREADS=1",
+        "-DCMAKE_EXE_LINKER_FLAGS=-s USE_PTHREADS=1",
+    ]
+
+    build_cmd = [
+        "cmd",
+        "/c",
+        "emmake",
+        "cmake",
+        "--build",
+        ".",
+        "--target",
+        "main",
+        "--config",
+        "Release",
+    ]
 else:
     raise RuntimeError(
         f"Unsupported system platform '{sys.platform}' "
         f"and target platform '{env['platform']}'"
     )
 
-build_coacd(cmake_args, build_cmd)
+build_coacd(cmake_cmd, build_cmd)
 
 # -------------------------------------------------------------------
 # Locate TBB
 # -------------------------------------------------------------------
 
-tbb_map = {
-    ("macos", "darwin"): "appleclang",
-    ("linux", "linux"): "gnu",
-    ("windows", "win32"): ("msvc", "mt"),
-    ("android", "win32"): "clang",
-    ("android", "linux"): "clang",
-}
+if env["platform"] != "web":
+    tbb_map = {
+        ("macos", "darwin"): "appleclang",
+        ("linux", "linux"): "gnu",
+        ("windows", "win32"): ("msvc", "mt"),
+        ("android", "win32"): "clang",
+        ("android", "linux"): "clang",
+    }
 
-key = (env["platform"], sys.platform)
-tbb_arg = tbb_map[key]
-if isinstance(tbb_arg, tuple):
-    tbb_build_dir = find_tbb_build_dir(*tbb_arg)
-else:
-    tbb_build_dir = find_tbb_build_dir(tbb_arg)
+    key = (env["platform"], sys.platform)
+    tbb_arg = tbb_map[key]
+    if isinstance(tbb_arg, tuple):
+        tbb_build_dir = find_tbb_build_dir(*tbb_arg)
+    else:
+        tbb_build_dir = find_tbb_build_dir(tbb_arg)
 
-if not tbb_build_dir:
-    raise RuntimeError("TBB folder not found")
-env.Append(LIBPATH=tbb_build_dir)
+    if not tbb_build_dir:
+        raise RuntimeError("TBB folder not found")
+    env.Append(LIBPATH=tbb_build_dir)
 
 # -------------------------------------------------------------------
 # Documentation & licenses

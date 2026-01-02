@@ -3,7 +3,7 @@ windows:
         MSCV:
             [x] arch=x86_32
             [x] arch=x86_64
-            [x] arch=arm64
+            [x] arch=arm64 (neon noch aktivieren)
         MinGW:
             [] arch=x86_32
             [] arch=x86_64
@@ -61,10 +61,10 @@ macos:
 
 android:
     from windows:
-        [] arch=x86_32
-        [] arch=x86_64
-        [] arch=arm64
-        [] arch=arm32
+        [x] arch=x86_32
+        [x] arch=x86_64
+        [x] arch=arm64
+        [x] arch=arm32
     from macos:
         [] arch=x86_32
         [] arch=x86_64
@@ -90,8 +90,16 @@ ios:
 
 web:
     from windows:
-        []
+        [x]
     from macos:
         []
     from linux:
         []
+
+
+- static Libary build
+
+
+emcmake cmake .. -DCMAKE_BUILD_TYPE=Release -DOPENVDB_CORE_SHARED=OFF -DTBB_TEST=OFF "-DCMAKE_POLICY_VERSION_MINIMUM=3.5" -DCMAKE_SKIP_INSTALL_RULES=ON -DCMAKE_CXX_FLAGS="-Wno-error=unknown-warning-option -Wno-missing-template-arg-list-after-template-kw -Wno-unknown-warning-option -s USE_PTHREADS=1" -DCMAKE_EXE_LINKER_FLAGS="-s USE_PTHREADS=1"
+
+emmake cmake --build . --target main --config Release    
