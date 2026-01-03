@@ -1,8 +1,6 @@
 import os
 import shutil
-from coacd_build import build as build_coacd
-from coacd_build import setup_linking as setup_coacd_linking
-from coacd_build import COACD_BUILD
+from coacd_build import build as build_coacd, setup_linking as setup_coacd_linking, COACD_BUILD, clean as clean_coacd
 from third_party_licenses import copy_third_party_licenses
 
 # -------------------------------------------------------------------
@@ -74,19 +72,17 @@ env.Append(**PLATFORM_FLAGS.get(env["platform"], {}))
 # -------------------------------------------------------------------
 # Build CoACD
 # -------------------------------------------------------------------
+if GetOption("clean"):
+    clean_coacd()
+else:
+    if ARGUMENTS.get("skip_coacd_build", "false") != "true":
+        build_coacd(env, compiler)
 
-if not (GetOption("clean") or ARGUMENTS.get("skip_coacd_build", "false") == "true"):
-    build_coacd(env, compiler)
+    setup_coacd_linking(env, compiler)
 
-setup_coacd_linking(env, compiler)
-
-# -------------------------------------------------------------------
-# Documentation & licenses
-# -------------------------------------------------------------------
-
-if not unpackaged:
-    shutil.copy(LICENSE_SRC, PLUGIN_DIR)
-    copy_third_party_licenses(PLUGIN_DIR)
+    if not unpackaged:
+        shutil.copy(LICENSE_SRC, PLUGIN_DIR)
+        copy_third_party_licenses(PLUGIN_DIR)
 
 if env["target"] in ("editor", "template_debug"):
     try:
@@ -143,7 +139,7 @@ def package(target, source, env):
 
 
 zip_target = Command(
-    os.path.join(BUILD_DIR, "GodotCoACD-godot-src.zip"),
+    '',
     library,
     package,
 )

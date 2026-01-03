@@ -2,6 +2,7 @@ import os
 import re
 import subprocess
 import sys
+import shutil
 
 # -------------------------------------------------------------------
 # Constants
@@ -47,11 +48,9 @@ PLATFORM_CMAKE_ARGS = {
         "-DANDROID_PLATFORM=android-21",
     ],
     "web": lambda env: ["-DCMAKE_SKIP_INSTALL_RULES=ON"],
-    "windows": lambda env: [],
 }
 
 PLATFORM_PREFIX = {
-    "windows": {},
     "web": {
         "configure": ["cmd", "/c", "emcmake"],
         "build": ["cmd", "/c", "emmake"],
@@ -76,7 +75,6 @@ COMPILER_CMAKE_ARGS = {
 COMPILER_BUILD_ARGS = {
     "msvc": lambda env: ["--parallel"],
     "mingw": lambda env: [f"-j{(os.cpu_count() - 1) or 1}"],
-    "clang": lambda env: [],
 }
 
 COMPILER_LIBS = {
@@ -85,7 +83,6 @@ COMPILER_LIBS = {
 }
 
 PLATFORM_LIBS = {
-    "windows": {},
     "web": {"LIBS": ["coacd"]},
 }
 
@@ -141,8 +138,8 @@ def build(env, compiler):
 
     # ---------------- Configure ----------------
     cmake_cmd = ["cmake", "..", *COMMON_CMAKE_FLAGS]
-    cmake_cmd += PLATFORM_CMAKE_ARGS[platform](env)
-    cmake_cmd += COMPILER_CMAKE_ARGS[compiler](env)
+    cmake_cmd += PLATFORM_CMAKE_ARGS.get(platform, lambda env: [])(env)
+    cmake_cmd += COMPILER_CMAKE_ARGS.get(compiler, lambda env: [])(env)
 
     prefix = PLATFORM_PREFIX.get(platform, {}).get("configure", [])
     run([*prefix, *cmake_cmd], COACD_BUILD)
@@ -150,7 +147,7 @@ def build(env, compiler):
     # ---------------- Build ----------------
     build_prefix = PLATFORM_PREFIX.get(platform, {}).get("build", [])
     build_cmd = [*build_prefix, *DEFAULT_BUILD_CMD]
-    build_cmd += COMPILER_BUILD_ARGS[compiler](env)
+    build_cmd += COMPILER_BUILD_ARGS.get(compiler, lambda env: [])(env)
     run(build_cmd, COACD_BUILD)
 
 
@@ -164,8 +161,8 @@ def setup_linking(env, compiler):
         ]
     )
 
-    env.Append(**COMPILER_LIBS[compiler])
-    env.Append(**PLATFORM_LIBS[env["platform"]])
+    env.Append(**COMPILER_LIBS.get(compiler, {}))
+    env.Append(**PLATFORM_LIBS.get(env["platform"], {}))
 
     if env["platform"] != "web":
         key = (compiler, sys.platform)
@@ -174,3 +171,8 @@ def setup_linking(env, compiler):
         if not tbb_dir:
             raise RuntimeError("TBB build not found")
         env.Append(LIBPATH=[tbb_dir])
+
+def clean():
+    print("Cleaning CoACD build directory")
+    if os.path.isdir(COACD_BUILD):
+        shutil.rmtree(COACD_BUILD, ignore_errors=True)
