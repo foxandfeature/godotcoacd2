@@ -1,7 +1,4 @@
 build
-src/gen
 .vscode
-.sconsign.dblite
-*.os
-*.obj
-*__pycache__
+addons/godotcoacd/bin
+!addons/godotcoacd/bin/godotcoacd.gdextension
