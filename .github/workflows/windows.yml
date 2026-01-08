@@ -7,7 +7,7 @@ on:
 
 jobs:
   windows:
-    name: Windows MSVC (${{ matrix.arch }} / ${{ matrix.config }})
+    name: Windows MSVC (${{ matrix.arch }} / ${{ matrix.target }})
     runs-on: windows-latest
 
     strategy:
@@ -41,5 +41,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: godotcoacd-windows-${{ matrix.arch }}-${{ matrix.config }}
+          name: godotcoacd-windows-${{ matrix.arch }}-${{ matrix.target }}
           path: addons/godotcoacd/bin/*
