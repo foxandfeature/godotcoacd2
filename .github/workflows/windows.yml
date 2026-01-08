@@ -1,8 +1,8 @@
 name: Build godotcoacd for Windows
 
 on:
-  push:
-  pull_request:
+  #push:
+  #pull_request:
   workflow_dispatch:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         arch: [x64, Win32, ARM64]
-        config: [Debug, Release]
+        target: [template_debug, template_release]
 
     steps:
       - name: Checkout repository
@@ -32,10 +32,11 @@ jobs:
           cmake -S . -B build `
             -G "Visual Studio 17 2022" `
             -A ${{ matrix.arch }}
+            -DGODOTCPP_TARGET=${{ matrix.target }}
 
       - name: Build
         run: |
-          cmake --build build --target godotcoacd --config ${{ matrix.config }} --parallel
+          cmake --build build --target godotcoacd --parallel
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
