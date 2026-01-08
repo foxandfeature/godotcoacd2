@@ -18,22 +18,23 @@ endif()
 if(EMSCRIPTEN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -Wno-missing-template-arg-list-after-template-kw -s USE_PTHREADS=1 -s SIDE_MODULE=1")
     set(BOOST_CONTEXT_IMPLEMENTATION "ucontext")
+elseif (APPLE)
+    SET(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
 endif()
-
-# Add subdirectories
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/CoACD-godot-src)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/godot-cpp)
-
-# Fetch GodotCPP suffix
-get_target_property(NAME_SUFFIX godot-cpp GODOTCPP_SUFFIX)
 
 # Collect source files
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/CoACD-godot-src)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/godot-cpp)
 
+# Fetch GodotCPP suffix
+get_target_property(NAME_SUFFIX godot-cpp GODOTCPP_SUFFIX)
+get_target_property(PLATFORM godot-cpp GODOTCPP_PLATFORM)
+
+message(STATUS "GodotCPP platform: ${PLATFORM}")
+
 file(GLOB_RECURSE GODOT_COACD_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
-# Create shared library
+# Create shared laibrary
 add_library(godotcoacd SHARED ${GODOT_COACD_SRC})
 
 # Include GodotCPP module for documentation generation

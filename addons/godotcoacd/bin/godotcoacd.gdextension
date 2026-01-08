@@ -6,8 +6,8 @@ reloadable = true
 
 [libraries]
 
-macos.debug = "res://addons/godotcoacd/bin/libgodotcoacd.macos.template_debug.framework"
-macos.release = "res://addons/godotcoacd/bin/libgodotcoacd.macos.template_release.framework"
+macos.debug = "res://addons/godotcoacd/bin/libgodotcoacd.macos.template_debug.universal.dylib"
+macos.release = "res://addons/godotcoacd/bin/libgodotcoacd.macos.template_release.universal.dylib"
 ios.debug = "res://addons/godotcoacd/bin/libgodotcoacd.ios.template_debug.xcframework"
 ios.release = "res://addons/godotcoacd/bin/libgodotcoacd.ios.template_release.xcframework"
 windows.debug.x86_32 = "res://addons/godotcoacd/bin/libgodotcoacd.windows.template_debug.x86_32.dll"
