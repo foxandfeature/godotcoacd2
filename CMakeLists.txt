@@ -20,8 +20,14 @@ if(EMSCRIPTEN)
     set(BOOST_CONTEXT_IMPLEMENTATION "ucontext")
 endif()
 
-if (APPLE)
-    SET(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
+if(APPLE)
+    if(CMAKE_OSX_SYSROOT STREQUAL "iphoneos")
+        # iOS Device → arm64 ONLY
+        set(CMAKE_OSX_ARCHITECTURES "arm64")
+    else()
+        # macOS build
+        set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
+    endif()
 endif()
 
 if(ANDROID)
