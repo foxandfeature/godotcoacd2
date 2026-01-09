@@ -19,16 +19,24 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Install ccache
+        run: |
+          brew install ccache
+
       - name: Cache
         uses: actions/cache@v4
         with:
-          path: build
+          path: |
+            build
+            ~/.ccache
           key: macos-${{ matrix.target }}-${{ hashFiles('**/CMakeLists.txt') }}
 
       - name: Configure CMake
         run: |
           cmake -S . -B build \
             -G "Unix Makefiles" \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_BUILD_TYPE=Release \
             -DGODOTCPP_TARGET=${{ matrix.target }}
 
