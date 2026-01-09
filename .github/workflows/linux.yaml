@@ -36,10 +36,10 @@ jobs:
               sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
               ;;
              riscv32)
-              sudo apt-get install -y gcc-riscv32-unknown-elf g++-riscv32-unknown-elf
+              sudo apt-get install -y gcc-riscv32-linux-gnu g++-riscv32-linux-gnu
               ;;
             riscv64)
-              sudo apt-get install -y gcc-riscv64-unknown-elf g++-riscv64-unknown-elf
+              sudo apt-get install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu
               ;;
           esac
 
@@ -83,14 +83,14 @@ jobs:
               CMAKE_SYSTEM_PROCESSOR_ARG="-DCMAKE_SYSTEM_PROCESSOR=aarch64"
               ;;
             riscv32)
-              export CC=riscv32-unknown-elf-gcc
-              export CXX=riscv32-unknown-elf-g++
+              export CC=riscv32-linux-gnu-gcc
+              export CXX=riscv32-linux-gnu-g++
               CMAKE_SYSTEM_NAME_ARG=""
               CMAKE_SYSTEM_PROCESSOR_ARG=""
               ;;
             riscv64)
-              export CC=riscv64-unknown-elf-gcc
-              export CXX=riscv64-unknown-elf-g++
+              export CC=riscv64-linux-gnu-gcc
+              export CXX=riscv64-linux-gnu-g++
               CMAKE_SYSTEM_NAME_ARG=""
               CMAKE_SYSTEM_PROCESSOR_ARG=""
               ;;
