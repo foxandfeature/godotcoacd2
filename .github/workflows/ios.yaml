@@ -23,14 +23,12 @@ jobs:
         run: |
           cmake -S . -B build \
             -G "Unix Makefiles" \
-            -DTHREADS_PREFER_PTHREAD_FLAG=OFF \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_SYSTEM_NAME=iOS \
             -DCMAKE_OSX_ARCHITECTURES=$([ "${{ matrix.target }}" = "ios_device" ] && echo "arm64" || echo "x86_64;arm64") \
             -DCMAKE_OSX_SYSROOT=$([ "${{ matrix.target }}" = "ios_device" ] && echo "iphoneos" || echo "iphonesimulator") \
             -DGODOTCPP_TARGET=${{ matrix.target }} \
-            -DCMAKE_THREAD_LIBS_INIT="" \
-            -DCMAKE_HAVE_THREADS_LIBRARY=1 \
+            -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
 
       - name: Build
         run: cmake --build build --target godotcoacd --parallel $(( $(sysctl -n hw.ncpu) - 1 ))
@@ -39,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: godotcoacd-ios-${{ matrix.target }}
-          path: build/*.a
+          path: addons/godotcoacd/bin/*
