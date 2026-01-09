@@ -20,33 +20,25 @@ jobs:
         with:
           submodules: recursive
         
+      
       - name: Configure CMake
         run: |
           case "${{ matrix.arch }}" in
             x64)
               export CC=gcc
               export CXX=g++
-              export CFLAGS=""
-              export CXXFLAGS=""
               ;;
             x32)
-              export CC=gcc
-              export CXX=g++
-              export CFLAGS="-m32"
-              export CXXFLAGS="-m32"
-              export LDFLAGS="-m32"
+              export CC="gcc -m32"
+              export CXX="g++ -m32"
               ;;
             arm32)
               export CC=arm-linux-gnueabihf-gcc
               export CXX=arm-linux-gnueabihf-g++
-              export CFLAGS=""
-              export CXXFLAGS=""
               ;;
             arm64)
               export CC=aarch64-linux-gnu-gcc
               export CXX=aarch64-linux-gnu-g++
-              export CFLAGS=""
-              export CXXFLAGS=""
               ;;
           esac
 
@@ -55,9 +47,6 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_C_COMPILER="$CC" \
             -DCMAKE_CXX_COMPILER="$CXX" \
-            -DCMAKE_C_FLAGS="$CFLAGS" \
-            -DCMAKE_CXX_FLAGS="$CXXFLAGS" \
-            -DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
             -DGODOTCPP_TARGET=${{ matrix.target }}
 
       - name: Build
