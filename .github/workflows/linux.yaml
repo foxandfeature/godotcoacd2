@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x64, x32, arm32, arm64]
+        arch: [x64, x32, arm32, arm64, riscv32, riscv64]
         target: [template_debug, template_release]
 
     steps:
@@ -34,6 +34,12 @@ jobs:
               ;;
             arm64)
               sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+              ;;
+             riscv32)
+              sudo apt-get install -y gcc-riscv32-unknown-elf g++-riscv32-unknown-elf
+              ;;
+            riscv64)
+              sudo apt-get install -y gcc-riscv64-unknown-elf g++-riscv64-unknown-elf
               ;;
           esac
 
@@ -75,6 +81,18 @@ jobs:
               export LDFLAGS=""
               CMAKE_SYSTEM_NAME_ARG="-DCMAKE_SYSTEM_NAME=Linux"
               CMAKE_SYSTEM_PROCESSOR_ARG="-DCMAKE_SYSTEM_PROCESSOR=aarch64"
+              ;;
+            riscv32)
+              export CC=riscv32-unknown-elf-gcc
+              export CXX=riscv32-unknown-elf-g++
+              CMAKE_SYSTEM_NAME_ARG=""
+              CMAKE_SYSTEM_PROCESSOR_ARG=""
+              ;;
+            riscv64)
+              export CC=riscv64-unknown-elf-gcc
+              export CXX=riscv64-unknown-elf-g++
+              CMAKE_SYSTEM_NAME_ARG=""
+              CMAKE_SYSTEM_PROCESSOR_ARG=""
               ;;
           esac
 
