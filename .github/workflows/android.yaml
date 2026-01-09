@@ -1,0 +1,47 @@
+name: Build godotcoacd for Android
+
+on:
+  workflow_dispatch:
+
+jobs:
+  android:
+    name: Android (${{ matrix.arch }} / ${{ matrix.target }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [arm64-v8a, armeabi-v7a, x86_64, x86]
+        target: [template_debug, template_release]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Android SDK and NDK
+        uses: android-actions/setup-android@v2
+        # with:
+        #   api-level: 33
+        #   ndk-version: 25.2.9519653  # adjust as needed
+        #   components: "ndk;${{ steps.setup.outputs.ndk-version }},cmake"
+
+      - name: Configure CMake for Android
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+            -DANDROID_ABI=${{ matrix.arch }} \
+            -DANDROID_PLATFORM=android-21 \
+            -DGODOTCPP_TARGET=${{ matrix.target }} \
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build godotcoacd
+        run: |
+          cmake --build build --target godotcoacd --parallel
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: godotcoacd-android-${{ matrix.arch }}-${{ matrix.target }}
+          path: addons/godotcoacd/bin/*
