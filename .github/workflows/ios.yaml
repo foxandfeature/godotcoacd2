@@ -28,7 +28,9 @@ jobs:
             -DCMAKE_SYSTEM_NAME=iOS \
             -DCMAKE_OSX_ARCHITECTURES=$([ "${{ matrix.target }}" = "ios_device" ] && echo "arm64" || echo "x86_64;arm64") \
             -DCMAKE_OSX_SYSROOT=$([ "${{ matrix.target }}" = "ios_device" ] && echo "iphoneos" || echo "iphonesimulator") \
-            -DGODOTCPP_TARGET=${{ matrix.target }}
+            -DGODOTCPP_TARGET=${{ matrix.target }} \
+            -DCMAKE_THREAD_LIBS_INIT="" \
+            -DCMAKE_HAVE_THREADS_LIBRARY=1 \
 
       - name: Build
         run: cmake --build build --target godotcoacd --parallel $(( $(sysctl -n hw.ncpu) - 1 ))
