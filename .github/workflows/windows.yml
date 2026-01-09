@@ -27,7 +27,7 @@ jobs:
         with:
           arch: ${{ matrix.arch }}
 
-      - name: Configure CMake (MSVC)
+      - name: Configure CMake
         run: |
           cmake -S . -B build `
             -G "Visual Studio 17 2022" `

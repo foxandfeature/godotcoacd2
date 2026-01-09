@@ -19,11 +19,13 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install dependencies
-        run: |
-          brew install cmake
+      - name: Cache
+        uses: actions/cache@v4
+        with:
+          path: build
+          key: macos-${{ matrix.target }}-${{ hashFiles('**/CMakeLists.txt') }}
 
-      - name: Configure CMake (macOS)
+      - name: Configure CMake
         run: |
           cmake -S . -B build \
             -G "Unix Makefiles" \
