@@ -1,0 +1,44 @@
+name: Build godotcoacd for Web
+
+on:
+  workflow_dispatch:
+
+jobs:
+  emscripten:
+    name: Web (wasm32 / ${{ matrix.target }} / threads=${{ matrix.threads }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [template_debug, template_release]
+        threads: [ON, OFF]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: latest
+
+      - name: Configure CMake (Emscripten)
+        run: |
+          emcmake cmake -S . -B build \
+            -G "Unix Makefiles" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DGODOTCPP_TARGET=${{ matrix.target }} \
+            -DGODOTCPP_THREADS=${{ matrix.threads }}
+
+      - name: Build
+        run: |
+          cmake --build build --target godotcoacd --parallel
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: godotcoacd-web-${{ matrix.target }}
+          path: addons/godotcoacd/bin/*

@@ -7,7 +7,7 @@ on:
 
 jobs:
   windows:
-    name: Windows MSVC (${{ matrix.arch }} / ${{ matrix.target }})
+    name: Windows (${{ matrix.arch }} / ${{ matrix.target }})
     runs-on: windows-latest
 
     strategy:
