@@ -38,7 +38,7 @@ jobs:
 
       - name: Build godotcoacd
         run: |
-          cmake --build build --target godotcoacd --parallel
+          cmake --build build --target godotcoacd --parallel 2
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
