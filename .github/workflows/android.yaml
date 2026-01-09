@@ -27,7 +27,7 @@ jobs:
         #   ndk-version: 25.2.9519653  # adjust as needed
         #   components: "ndk;${{ steps.setup.outputs.ndk-version }},cmake"
 
-      - name: Configure CMake for Android
+      - name: Configure CMake
         run: |
           cmake -S . -B build \
             -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
