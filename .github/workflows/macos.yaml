@@ -20,10 +20,14 @@ jobs:
           submodules: recursive
 
       - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
+        uses: hendrikmuhs/ccache-action@v1.2.20
         with:
-            #create-symlink: true
             key: macos-${{ matrix.target }}
+      
+      - name: Verify ccache
+        run: |
+          which ccache
+          ccache --show-stats
 
       - name: Configure CMake
         run: |
