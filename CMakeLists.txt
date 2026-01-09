@@ -18,6 +18,7 @@ endif()
 if(EMSCRIPTEN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -Wno-missing-template-arg-list-after-template-kw -s USE_PTHREADS=1 -s SIDE_MODULE=1")
     set(BOOST_CONTEXT_IMPLEMENTATION "ucontext")
+endif()
 
 if (APPLE)
     SET(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
