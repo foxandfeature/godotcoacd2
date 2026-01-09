@@ -19,16 +19,11 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install ccache
-        run: |
-          brew install ccache
-
-      - name: Cache
-        uses: actions/cache@v4
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2
         with:
-          path: |
-            ~/.ccache
-          key: macos-${{ matrix.target }}
+            create-symlink: true
+            key: macos-${{ matrix.target }}
 
       - name: Configure CMake
         run: |
