@@ -29,7 +29,7 @@ jobs:
           path: |
             build
             ~/.ccache
-          key: macos-${{ matrix.target }}-${{ hashFiles('**/CMakeLists.txt') }}
+          key: macos-${{ matrix.target }}
 
       - name: Configure CMake
         run: |
