@@ -22,7 +22,7 @@ jobs:
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-            create-symlink: true
+            #create-symlink: true
             key: macos-${{ matrix.target }}
 
       - name: Configure CMake
