@@ -21,6 +21,8 @@ if(EMSCRIPTEN)
 endif()
 
 if(APPLE)
+    message(STATUS "System name: ${CMAKE_SYSTEM_NAME}")
+    message(STATUS "Sysroot: ${CMAKE_OSX_SYSROOT}")
     if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
         # iOS Device → arm64 ONLY
         set(CMAKE_OSX_ARCHITECTURES "arm64")
