@@ -23,6 +23,7 @@ endif()
 if(APPLE)
     if(CMAKE_OSX_SYSROOT STREQUAL "iphoneos")
         # iOS Device → arm64 ONLY
+        message("ios")
         set(CMAKE_OSX_ARCHITECTURES "arm64")
     else()
         # macOS build
