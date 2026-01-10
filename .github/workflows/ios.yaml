@@ -5,13 +5,14 @@ on:
 
 jobs:
   ios:
-    name: iOS (universal / ${{ matrix.target }})
+    name: iOS (${{ matrix.arch }} / ${{ matrix.target }})
     runs-on: macos-latest
 
     strategy:
       fail-fast: false
       matrix:
-        target: [ios_device, ios_simulator]
+        arch: [ios_device, ios_simulator]
+        target: [template_debug, template_release]
 
     steps:
       - name: Checkout repository
@@ -24,9 +25,7 @@ jobs:
           cmake -S . -B build \
             -G "Unix Makefiles" \
             -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_SYSTEM_NAME=iOS \
-            -DCMAKE_OSX_ARCHITECTURES="$([ "${{ matrix.target }}" = "ios_device" ] && echo "arm64" || echo "x86_64;arm64")" \
-            -DCMAKE_OSX_SYSROOT=$([ "${{ matrix.target }}" = "ios_device" ] && echo "iphoneos" || echo "iphonesimulator") \
+            -DCMAKE_OSX_SYSROOT=$([ "${{ matrix.arch }}" = "ios_device" ] && echo "iphoneos" || echo "iphonesimulator") \
             -DGODOTCPP_TARGET=${{ matrix.target }} \
             -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY \
             -DOPENVDB_BUILD_VDB_PRINT=OFF
@@ -38,5 +37,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: godotcoacd-ios-${{ matrix.target }}
+          name: godotcoacd-ios-${{ matrix.arch }}-${{ matrix.target }}
           path: addons/godotcoacd/bin/*
