@@ -21,6 +21,8 @@ if(EMSCRIPTEN)
 endif()
 
 if(APPLE)
+    message("Root:")
+     message(CMAKE_OSX_SYSROOT)
     if(CMAKE_OSX_SYSROOT STREQUAL "iphoneos")
         # iOS Device → arm64 ONLY
         message("ios")
