@@ -6,4 +6,4 @@ on:
 
 jobs:
   godot-cpp:
-    uses: godotengine/godot-cpp/.github/workflows/continuous-integration.yml@4.5
+    uses: godotengine/godot-cpp/.github/workflows/ci-cmake.yml@4.5
