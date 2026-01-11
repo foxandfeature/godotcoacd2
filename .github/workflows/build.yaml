@@ -1,8 +1,9 @@
 name: Build GDExtension
 
 on:
-  workflow_dispatch:
+  push:
+  pull_request:
 
 jobs:
   godot-cpp:
-    uses: ./.github/workflows/continuous-integration.yml
+    uses: ./godot-cpp/.github/workflows/continuous-integration.yml
