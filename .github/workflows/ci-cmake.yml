@@ -157,7 +157,7 @@ jobs:
 
       - name: Build godot-cpp-test (template_debug)
         run: >
-          cmake --build cmake-build --verbose  --target godotcoacd ${{ matrix.build-flags }} # REPLACED: godot-cpp-test -> godotcoacd
+          cmake --build cmake-build --verbose  --target godotcoacd ${{ matrix.build-flags }} #REPLACED: godot-cpp-test -> godotcoacd
 
       - name: Configure godot-cpp-test with template_release
         run: >
@@ -166,7 +166,7 @@ jobs:
 
       - name: Build godot-cpp-test (template_release)
         run: >
-          cmake --build cmake-build --verbose  --target godotcoacd ${{ matrix.build-flags }} # REPLACED: godot-cpp-test -> godotcoacd
+          cmake --build cmake-build --verbose  --target godotcoacd ${{ matrix.build-flags }} #REPLACED: godot-cpp-test -> godotcoacd
 
       - name: Run sccache stat for check
         shell: bash

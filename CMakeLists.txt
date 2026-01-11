@@ -9,6 +9,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 set(CMAKE_SKIP_INSTALL_RULES ON)
 
+if(CMAKE_GENERATOR STREQUAL "Ninja")
+    set(CMAKE_NINJA_FLAGS "-w dupbuild=warn")
+endif()
+
 # MSVC-specific settings
 if(MSVC)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
@@ -18,18 +22,6 @@ endif()
 if(EMSCRIPTEN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -Wno-missing-template-arg-list-after-template-kw -s USE_PTHREADS=1 -s SIDE_MODULE=1")
     set(BOOST_CONTEXT_IMPLEMENTATION "ucontext")
-endif()
-
-if(APPLE)
-    message(STATUS "System name: ${CMAKE_SYSTEM_NAME}")
-    message(STATUS "Sysroot: ${CMAKE_OSX_SYSROOT}")
-    if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
-        # iOS Device → arm64 ONLY
-        set(CMAKE_OSX_ARCHITECTURES "arm64")
-    else()
-        # macOS build
-        set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
-    endif()
 endif()
 
 if(ANDROID)
