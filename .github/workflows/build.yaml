@@ -5,19 +5,5 @@ on:
   pull_request:
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Copy setup-godot-cpp action
-        run: |
-          mkdir -p .github/actions/setup-godot-cpp
-          cp godot-cpp/.github/actions/setup-godot-cpp/action.yml .github/actions/setup-godot-cpp/
-
   build:
-    uses: godotengine/godot-cpp/.github/workflows/ci-cmake.yml@4.5
-    needs: setup
+    uses: ./.github/workflows/ci-cmake.yml
