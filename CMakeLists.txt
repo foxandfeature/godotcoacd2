@@ -43,6 +43,10 @@ file(GLOB_RECURSE GODOT_COACD_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 # Create shared laibrary
 add_library(godotcoacd SHARED ${GODOT_COACD_SRC})
 
+if(IOS)
+    target_compile_definitions(godotcoacd PRIVATE OPENVDB_BUILD_VDB_PRINT=OFF)
+endif()
+
 # Include GodotCPP module for documentation generation
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${godot-cpp_SOURCE_DIR}/cmake")
 include(GodotCPPModule)

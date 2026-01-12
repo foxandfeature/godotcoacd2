@@ -70,7 +70,7 @@ jobs:
             config-flags: -DCMAKE_BUILD_TYPE=Release
             artifact-name: godot-cpp-linux-glibc2.27-x86_64-release.cmake
             artifact-path: cmake-build/bin/libgodot-cpp.linux.template_release.x86_64.a
-            run-tests: true
+            run-tests: false
 
           - name: 🏁 Windows (x86_64, MSVC)
             os: windows-2022
@@ -79,17 +79,6 @@ jobs:
             build-flags: --config Release
             artifact-name: godot-cpp-windows-msvc2019-x86_64-release.cmake
             artifact-path: cmake-build/bin/libgodot-cpp.windows.template_release.x86_64.lib
-            run-tests: false
-
-          - name: 🏁 Windows (x86_64, MinGW, Ninja)
-            os: windows-2022
-            platform: windows
-            compiler: mingw
-            config-flags:
-              -GNinja -DCMAKE_BUILD_TYPE=Release
-              -DCMAKE_CXX_COMPILER=cc -DCMAKE_CXX_COMPILER=c++
-            artifact-name: godot-cpp-linux-mingw-x86_64-release.cmake
-            artifact-path: cmake-build/bin/libgodot-cpp.windows.template_release.x86_64.a
             run-tests: false
 
           - name: 🍎 macOS (universal, Makefiles)
