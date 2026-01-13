@@ -8,8 +8,10 @@ set(CMAKE_CXX_STANDARD 17)
 # Minimum policy version and skip install rules
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 set(CMAKE_SKIP_INSTALL_RULES ON)
-set(OPENVDB_BUILD_BINARIES OFF)
-set(OPENVDB_BUILD_VDB_PRINT OFF)
+# BEFORE add_subdirectory or FetchContent for OpenVDB
+set(OPENVDB_BUILD_BINARIES OFF CACHE BOOL "Do not build OpenVDB binaries" FORCE)
+set(OPENVDB_BUILD_VDB_PRINT OFF CACHE BOOL "Do not build vdb_print" FORCE)
+
 
 # MSVC-specific settings
 if(MSVC)
