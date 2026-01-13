@@ -12,6 +12,11 @@ set(CMAKE_SKIP_INSTALL_RULES ON)
 set(OPENVDB_BUILD_BINARIES OFF CACHE BOOL "Do not build OpenVDB binaries" FORCE)
 set(OPENVDB_BUILD_VDB_PRINT OFF CACHE BOOL "Do not build vdb_print" FORCE)
 
+# MSVC-specific settings
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
+endif()
+
 # Emscripten-specific settings
 if(EMSCRIPTEN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -Wno-missing-template-arg-list-after-template-kw -s USE_PTHREADS=1 -s SIDE_MODULE=1")
