@@ -1,6 +1,8 @@
 name: Build godotcoacd for Web
 
 on:
+  push:
+  pull_request:
   workflow_dispatch:
 
 jobs:

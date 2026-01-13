@@ -11,12 +11,6 @@ set(CMAKE_SKIP_INSTALL_RULES ON)
 # BEFORE add_subdirectory or FetchContent for OpenVDB
 set(OPENVDB_BUILD_BINARIES OFF CACHE BOOL "Do not build OpenVDB binaries" FORCE)
 set(OPENVDB_BUILD_VDB_PRINT OFF CACHE BOOL "Do not build vdb_print" FORCE)
-set(TBB_WERROR OFF CACHE BOOL "Disable treating warnings as errors in TBB")
-
-# MSVC-specific settings
-if(MSVC)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
-endif()
 
 # Emscripten-specific settings
 if(EMSCRIPTEN)
@@ -39,8 +33,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/godot-cpp)
 # Fetch GodotCPP suffix
 get_target_property(NAME_SUFFIX godot-cpp GODOTCPP_SUFFIX)
 get_target_property(PLATFORM godot-cpp GODOTCPP_PLATFORM)
-
-message(STATUS "GodotCPP platform: ${PLATFORM}")
 
 file(GLOB_RECURSE GODOT_COACD_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 

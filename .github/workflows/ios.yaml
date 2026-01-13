@@ -1,17 +1,18 @@
 name: Build godotcoacd for iOS
 
 on:
+  push:
+  pull_request:
   workflow_dispatch:
 
 jobs:
   ios:
-    name: iOS (${{ matrix.arch }} / ${{ matrix.target }})
+    name: iOS (arm64/ ${{ matrix.target }})
     runs-on: macos-latest
 
     strategy:
       fail-fast: false
       matrix:
-        arch: [ios_device, ios_simulator]
         target: [template_debug, template_release]
 
     steps:
@@ -23,19 +24,15 @@ jobs:
       - name: Configure CMake for iOS
         run: |
           cmake -S . -B build \
-            -G "Unix Makefiles" \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_OSX_SYSROOT=$([ "${{ matrix.arch }}" = "ios_device" ] && echo "iphoneos" || echo "iphonesimulator") \
-            -DGODOTCPP_TARGET=${{ matrix.target }} \
-            -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY \
-            -DOPENVDB_BUILD_VDB_PRINT=OFF
-
-
+            -G Xcode \
+            --toolchain godot-cpp/cmake/ios.toolchain.cmake \
+            -DPLATFORM=OS64
+            
       - name: Build
-        run: cmake --build build --target godotcoacd --parallel $(( $(sysctl -n hw.ncpu) - 1 ))
+        run: cmake --build build --target godotcoacd --config Release --parallel
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: godotcoacd-ios-${{ matrix.arch }}-${{ matrix.target }}
+          name: godotcoacd-ios-${{ matrix.target }}
           path: addons/godotcoacd/bin/*

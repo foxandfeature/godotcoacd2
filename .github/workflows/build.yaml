@@ -1,9 +1,0 @@
-name: Build GDExtension
-
-on:
-  push:
-  pull_request:
-
-jobs:
-  build:
-    uses: ./.github/workflows/ci-cmake.yml
