@@ -28,6 +28,10 @@ if(ANDROID)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option")
 endif()
 
+if (IOS)
+    target_compile_options(tbb PRIVATE -Wno-shorten-64-to-32)
+endif()
+
 # Collect source files
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/CoACD-godot-src)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/godot-cpp)
