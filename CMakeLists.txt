@@ -11,7 +11,7 @@ set(CMAKE_SKIP_INSTALL_RULES ON)
 # BEFORE add_subdirectory or FetchContent for OpenVDB
 set(OPENVDB_BUILD_BINARIES OFF CACHE BOOL "Do not build OpenVDB binaries" FORCE)
 set(OPENVDB_BUILD_VDB_PRINT OFF CACHE BOOL "Do not build vdb_print" FORCE)
-
+set(TBB_WERROR OFF CACHE BOOL "Disable treating warnings as errors in TBB")
 
 # MSVC-specific settings
 if(MSVC)
