@@ -8,10 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Minimum policy version and skip install rules
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 set(CMAKE_SKIP_INSTALL_RULES ON)
-
-if(CMAKE_GENERATOR STREQUAL "Ninja")
-    set(CMAKE_NINJA_FLAGS "-w dupbuild=warn")
-endif()
+set(OPENVDB_BUILD_BINARIES OFF)
 
 # MSVC-specific settings
 if(MSVC)
@@ -42,10 +39,6 @@ file(GLOB_RECURSE GODOT_COACD_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 # Create shared laibrary
 add_library(godotcoacd SHARED ${GODOT_COACD_SRC})
-
-if(IOS)
-    target_compile_definitions(godotcoacd PRIVATE OPENVDB_BUILD_VDB_PRINT=OFF)
-endif()
 
 # Include GodotCPP module for documentation generation
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${godot-cpp_SOURCE_DIR}/cmake")
