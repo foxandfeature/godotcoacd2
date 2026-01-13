@@ -29,7 +29,7 @@ if(ANDROID)
 endif()
 
 if (IOS)
-    target_compile_options(tbb PRIVATE -Wno-shorten-64-to-32)
+    add_compile_options(-Wno-shorten-64-to-32)
 endif()
 
 # Collect source files
