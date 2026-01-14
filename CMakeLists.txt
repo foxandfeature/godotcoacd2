@@ -29,13 +29,6 @@ endif()
 
 if (IOS)
     add_compile_options(-Wno-shorten-64-to-32)
-    if(SDK_NAME STREQUAL "iphonesimulator")
-        message(STATUS "Building for iOS Simulator")
-        string(REPLACE "-mrtm" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
-        string(REPLACE "-mwaitpkg" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
-        string(REPLACE "-mrtm" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-        string(REPLACE "-mwaitpkg" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-    endif()
 endif()
 
 # Collect source files
