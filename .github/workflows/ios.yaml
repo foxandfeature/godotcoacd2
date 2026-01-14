@@ -30,6 +30,16 @@ jobs:
             
       - name: Build
         run: cmake --build build --target godotcoacd --config Release --parallel
+      
+      - name: Configure CMake for iOS Simulator
+        run: |
+          cmake -S . -B build \
+            -G Xcode \
+            --toolchain godot-cpp/cmake/ios.toolchain.cmake \
+            -DPLATFORM=SIMULATOR64COMBINED
+            
+      - name: Build
+        run: cmake --build build --target godotcoacd --config Release --parallel
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
