@@ -29,6 +29,10 @@ endif()
 
 if (IOS)
     add_compile_options(-Wno-shorten-64-to-32)
+    if(SDK_NAME MATCHES "simulator")
+        message(STATUS "Building for iOS Simulator")
+        add_compile_options(-mrtm -mwaitpkg)
+    endif()
 endif()
 
 # Collect source files
