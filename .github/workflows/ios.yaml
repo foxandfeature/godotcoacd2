@@ -21,15 +21,15 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Configure CMake for iOS
-        run: |
-          cmake -S . -B build \
-            -G Xcode \
-            --toolchain godot-cpp/cmake/ios.toolchain.cmake \
-            -DPLATFORM=OS64
+      # - name: Configure CMake for iOS
+      #   run: |
+      #     cmake -S . -B build \
+      #       -G Xcode \
+      #       --toolchain godot-cpp/cmake/ios.toolchain.cmake \
+      #       -DPLATFORM=OS64
             
-      - name: Build
-        run: cmake --build build --target godotcoacd --config Release --parallel
+      # - name: Build
+      #   run: cmake --build build --target godotcoacd --config Release --parallel
       
       - name: Configure CMake for iOS Simulator
         run: |
