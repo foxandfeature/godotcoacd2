@@ -63,6 +63,8 @@ target_link_libraries(godotcoacd godot-cpp coacd spdlog::spdlog)
 
 if(MSVC)
     set(LIB_NAME "libgodotcoacd${NAME_SUFFIX}")
+elseif(IOS and SDK_NAME STREQUAL "iphonesimulator")
+    set(LIB_NAME "libgodotcoacd${NAME_SUFFIX}.simulator")
 else()
     set(LIB_NAME "godotcoacd${NAME_SUFFIX}")
 endif()
