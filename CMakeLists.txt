@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Minimum policy version and skip install rules
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 set(CMAKE_SKIP_INSTALL_RULES ON)
-# BEFORE add_subdirectory or FetchContent for OpenVDB
+
 set(OPENVDB_BUILD_BINARIES OFF CACHE BOOL "Do not build OpenVDB binaries" FORCE)
 set(OPENVDB_BUILD_VDB_PRINT OFF CACHE BOOL "Do not build vdb_print" FORCE)
 
@@ -37,12 +37,15 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/godot-cpp)
 
 # Fetch GodotCPP suffix
 get_target_property(NAME_SUFFIX godot-cpp GODOTCPP_SUFFIX)
-get_target_property(PLATFORM godot-cpp GODOTCPP_PLATFORM)
 
 file(GLOB_RECURSE GODOT_COACD_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 # Create shared laibrary
-add_library(godotcoacd SHARED ${GODOT_COACD_SRC})
+if(IOS)
+    add_library(godotcoacd STATIC ${GODOT_COACD_SRC})
+else()
+    add_library(godotcoacd SHARED ${GODOT_COACD_SRC})
+endif()
 
 # Include GodotCPP module for documentation generation
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${godot-cpp_SOURCE_DIR}/cmake")
