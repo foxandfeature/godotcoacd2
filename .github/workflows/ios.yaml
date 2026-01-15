@@ -33,19 +33,13 @@ jobs:
       
       - name: Configure CMake for iOS Simulator
         run: |
-          cmake -S . -B build \
+          cmake -S . -B build-sim \
             -G Xcode \
             --toolchain godot-cpp/cmake/ios.toolchain.cmake \
             -DPLATFORM=SIMULATORARM64
             
       - name: Build
-        run: cmake --build build --target godotcoacd --config Release --parallel
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: godotcoacd-ios-${{ matrix.target }}
-          path: addons/godotcoacd/bin/*
+        run: cmake --build build-sim --target godotcoacd --config Release --parallel
       
       - name: Create XCFrameworks
         run: |
@@ -58,3 +52,9 @@ jobs:
             -library godot-cpp/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
             -library godot-cpp/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.simulator.a \
             -output addons/godotcoacd/bin/libgodot-cpp.ios.${{ matrix.target }}.xcframework
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: godotcoacd-ios-${{ matrix.target }}
+          path: addons/godotcoacd/bin/*
