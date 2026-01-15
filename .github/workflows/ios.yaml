@@ -46,3 +46,15 @@ jobs:
         with:
           name: godotcoacd-ios-${{ matrix.target }}
           path: addons/godotcoacd/bin/*
+      
+      - name: Create XCFrameworks
+        run: |
+          xcodebuild -create-xcframework \
+            -library addons/godotcoacd/bin/libgodotcoacd.ios.${{ matrix.target }}.arm64.a \
+            -library addons/godotcoacd/bin/libgodotcoacd.ios.${{ matrix.target }}.arm64.simulator.a \
+            -output addons/godotcoacd/bin/libgodotcoacd.ios.${{ matrix.target }}.xcframework
+
+          xcodebuild -create-xcframework \
+            -library godot-cpp/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
+            -library godot-cpp/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.simulator.a \
+            -output addons/godotcoacd/bin/libgodot-cpp.ios.${{ matrix.target }}.xcframework
