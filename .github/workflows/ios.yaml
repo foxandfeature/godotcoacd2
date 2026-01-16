@@ -27,6 +27,7 @@ jobs:
             -G Xcode \
             --toolchain godot-cpp/cmake/ios.toolchain.cmake \
             -DPLATFORM=OS64
+            -DGODOTCPP_TARGET=${{ matrix.target }}
             
       - name: Build
         run: cmake --build build --target godotcoacd --config Release --parallel
@@ -37,6 +38,7 @@ jobs:
             -G Xcode \
             --toolchain godot-cpp/cmake/ios.toolchain.cmake \
             -DPLATFORM=SIMULATORARM64
+            -DGODOTCPP_TARGET=${{ matrix.target }}
             
       - name: Build
         run: cmake --build build-sim --target godotcoacd --config Release --parallel
