@@ -26,7 +26,7 @@ jobs:
           cmake -S . -B build \
             -G Xcode \
             --toolchain godot-cpp/cmake/ios.toolchain.cmake \
-            -DPLATFORM=OS64
+            -DPLATFORM=OS64 \
             -DGODOTCPP_TARGET=${{ matrix.target }}
             
       - name: Build
@@ -37,7 +37,7 @@ jobs:
           cmake -S . -B build-sim \
             -G Xcode \
             --toolchain godot-cpp/cmake/ios.toolchain.cmake \
-            -DPLATFORM=SIMULATORARM64
+            -DPLATFORM=SIMULATORARM64 \
             -DGODOTCPP_TARGET=${{ matrix.target }}
             
       - name: Build
