@@ -2,3 +2,4 @@ build
 .vscode
 addons/godotcoacd/bin
 !addons/godotcoacd/bin/godotcoacd.gdextension
+.DS_Store

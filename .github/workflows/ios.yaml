@@ -49,8 +49,8 @@ jobs:
             -output addons/godotcoacd/bin/libgodotcoacd.ios.${{ matrix.target }}.xcframework
 
           xcodebuild -create-xcframework \
-            -library godot-cpp/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
-            -library godot-cpp/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.simulator.a \
+            -library build/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
+            -library build-sim/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
             -output addons/godotcoacd/bin/libgodot-cpp.ios.${{ matrix.target }}.xcframework
 
       - name: Upload artifacts
