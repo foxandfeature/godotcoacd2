@@ -83,6 +83,12 @@ endif()
 
 set(GODOT_PROJECT_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/addons/godotcoacd/bin")
 
+if(IOS)
+    set(GODOT_PROJECT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/bin")
+else()
+    set(GODOT_PROJECT_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/addons/godotcoacd/bin")
+endif()
+
 add_custom_command(TARGET godotcoacd POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:godotcoacd>" "${GODOT_PROJECT_BINARY_DIR}/$<TARGET_FILE_NAME:godotcoacd>"
 )
