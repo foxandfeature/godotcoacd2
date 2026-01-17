@@ -8,50 +8,45 @@ on:
     types: [published]
 
 jobs:
-  trigger-builds:
-    name: Trigger Platform Builds
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger macOS Build
-        uses: actions/workflow_dispatch@v1
-        with:
-          workflow: macos.yaml
-          token: ${{ secrets.GITHUB_TOKEN }}
+  trigger-macos:
+    name: Build macOS
+    uses: ./.github/workflows/macos.yml
 
-      - name: Trigger Windows Build
-        uses: actions/workflow_dispatch@v1
-        with:
-          workflow: windows.yml
-          token: ${{ secrets.GITHUB_TOKEN }}
+  trigger-windows:
+    name: Build Windows
+    needs: trigger-macos
+    uses: ./.github/workflows/windows.yml
 
-      - name: Trigger Linux Build
-        uses: actions/workflow_dispatch@v1
-        with:
-          workflow: linux.yaml
-          token: ${{ secrets.GITHUB_TOKEN }}
+  trigger-linux:
+    name: Build Linux
+    needs: trigger-macos
+    uses: ./.github/workflows/linux.yml
 
-      - name: Trigger iOS Build
-        uses: actions/workflow_dispatch@v1
-        with:
-          workflow: ios.yaml
-          token: ${{ secrets.GITHUB_TOKEN }}
+  trigger-ios:
+    name: Build iOS
+    needs: trigger-macos
+    uses: ./.github/workflows/ios.yml
 
-      - name: Trigger Android Build
-        uses: actions/workflow_dispatch@v1
-        with:
-          workflow: android.yaml
-          token: ${{ secrets.GITHUB_TOKEN }}
+  trigger-android:
+    name: Build Android
+    needs: trigger-macos
+    uses: ./.github/workflows/android.yml
 
-      - name: Trigger Web Build
-        uses: actions/workflow_dispatch@v1
-        with:
-          workflow: web.yaml
-          token: ${{ secrets.GITHUB_TOKEN }}
+  trigger-web:
+    name: Build Web
+    needs: trigger-macos
+    uses: ./.github/workflows/web.yml
 
   combine-artifacts:
     name: Combine All Artifacts
     runs-on: ubuntu-latest
-    needs: trigger-builds
+    needs:
+      - trigger-macos
+      - trigger-windows
+      - trigger-linux
+      - trigger-ios
+      - trigger-android
+      - trigger-web
 
     steps:
       - name: Checkout repository
@@ -60,8 +55,8 @@ jobs:
       - name: Download all platform artifacts
         uses: actions/download-artifact@v4
         with:
-            path: addons/godotcoacd/bin
-            merge-multiple: true
+          path: addons/godotcoacd/bin
+          merge-multiple: true
 
       - name: Upload combined artifacts
         uses: actions/upload-artifact@v4
