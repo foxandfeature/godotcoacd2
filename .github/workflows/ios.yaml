@@ -64,6 +64,16 @@ jobs:
             -library build/_deps/spdlog-build/Release-iphoneos/libspdlog.a \
             -library build-sim/_deps/spdlog-build/Release-iphonesimulator/libspdlog.a \
             -output addons/godotcoacd/bin/libspdlog.ios.${{ matrix.target }}.xcframework
+          
+          xcodebuild -create-xcframework \
+            -library build/_deps/openvdb-build/openvdb/openvdb/Release-iphoneos/libopenvdb.a \
+            -library build-sim/openvdb-build/openvdb/openvdb/Release-iphonesimulator/libopenvdb.a \
+            -output addons/godotcoacd/bin/libopenvdb.ios.${{ matrix.target }}.xcframework
+          
+          xcodebuild -create-xcframework \
+            -library build/appleclang_17.0_cxx20_64_release/libtbb.a \
+            -library build-sim/appleclang_17.0_cxx20_64_release/libtbb.a \
+            -output addons/godotcoacd/bin/libtbb.ios.${{ matrix.target }}.xcframework
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

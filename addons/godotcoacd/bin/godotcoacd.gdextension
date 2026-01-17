@@ -28,9 +28,13 @@ ios.debug = {
 	"res://addons/godotcoacd/bin/libgodot-cpp.ios.template_debug.xcframework": "",
 	"res://addons/godotcoacd/bin/libcoacd.ios.template_debug.xcframework": "",
 	"res://addons/godotcoacd/bin/libspdlog.ios.template_debug.xcframework": ""
+	"res://addons/godotcoacd/bin/libopenvdb.ios.template_debug.xcframework": "",
+	"res://addons/godotcoacd/bin/libtbb.ios.template_debug.xcframework": ""
 }
 ios.release = {
 	"res://addons/godotcoacd/bin/libgodot-cpp.ios.template_release.xcframework": "",
 	"res://addons/godotcoacd/bin/libcoacd.ios.template_release.xcframework": "",
-	"res://addons/godotcoacd/bin/libspdlog.ios.template_release.xcframework": ""
+	"res://addons/godotcoacd/bin/libspdlog.ios.template_release.xcframework": "",
+	"res://addons/godotcoacd/bin/libopenvdb.ios.template_release.xcframework": "",
+	"res://addons/godotcoacd/bin/libtbb.ios.template_release.xcframework": ""
 }
