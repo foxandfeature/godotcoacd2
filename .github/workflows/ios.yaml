@@ -54,6 +54,16 @@ jobs:
             -library build/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
             -library build-sim/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
             -output addons/godotcoacd/bin/libgodot-cpp.ios.${{ matrix.target }}.xcframework
+          
+          xcodebuild -create-xcframework \
+            -library build/CoACD-godot-src/Release-iphoneos/libcoacd.a \
+            -library build-sim/CoACD-godot-src/Release-iphoneos/libcoacd.a \
+            -output addons/godotcoacd/bin/libcoacd.ios.${{ matrix.target }}.xcframework
+          
+          xcodebuild -create-xcframework \
+            -library build/_deps/spdlog-build/Release-iphoneos/libspdlog.a \
+            -library build-sim/_deps/spdlog-build/Release-iphoneos/libspdlog.a \
+            -output addons/godotcoacd/bin/libspdlog.ios.${{ matrix.target }}.xcframework
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
