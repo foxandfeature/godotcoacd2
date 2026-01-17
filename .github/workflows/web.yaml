@@ -1,7 +1,7 @@
 name: Build godotcoacd for Web
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   emscripten:

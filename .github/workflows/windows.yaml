@@ -1,7 +1,7 @@
 name: Build godotcoacd for Windows
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   windows:
