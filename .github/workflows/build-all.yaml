@@ -14,27 +14,22 @@ jobs:
 
   trigger-windows:
     name: Build Windows
-    needs: trigger-macos
     uses: ./.github/workflows/windows.yaml
 
   trigger-linux:
     name: Build Linux
-    needs: trigger-macos
     uses: ./.github/workflows/linux.yaml
 
   trigger-ios:
     name: Build iOS
-    needs: trigger-macos
     uses: ./.github/workflows/ios.yaml
 
   trigger-android:
     name: Build Android
-    needs: trigger-macos
     uses: ./.github/workflows/android.yaml
 
   trigger-web:
     name: Build Web
-    needs: trigger-macos
     uses: ./.github/workflows/web.yaml
 
   combine-artifacts:
