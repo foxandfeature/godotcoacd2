@@ -67,7 +67,7 @@ jobs:
           
           xcodebuild -create-xcframework \
             -library build/_deps/openvdb-build/openvdb/openvdb/Release-iphoneos/libopenvdb.a \
-            -library build-sim/openvdb-build/openvdb/openvdb/Release-iphonesimulator/libopenvdb.a \
+            -library build-sim/_deps/openvdb-build/openvdb/openvdb/Release-iphonesimulator/libopenvdb.a \
             -output addons/godotcoacd/bin/libopenvdb.ios.${{ matrix.target }}.xcframework
           
           xcodebuild -create-xcframework \

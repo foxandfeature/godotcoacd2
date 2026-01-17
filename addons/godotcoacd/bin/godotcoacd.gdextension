@@ -27,7 +27,7 @@ android.release.arm64 = "res://addons/godotcoacd/bin/libgodotcoacd.android.templ
 ios.debug = {
 	"res://addons/godotcoacd/bin/libgodot-cpp.ios.template_debug.xcframework": "",
 	"res://addons/godotcoacd/bin/libcoacd.ios.template_debug.xcframework": "",
-	"res://addons/godotcoacd/bin/libspdlog.ios.template_debug.xcframework": ""
+	"res://addons/godotcoacd/bin/libspdlog.ios.template_debug.xcframework": "",
 	"res://addons/godotcoacd/bin/libopenvdb.ios.template_debug.xcframework": "",
 	"res://addons/godotcoacd/bin/libtbb.ios.template_debug.xcframework": ""
 }
