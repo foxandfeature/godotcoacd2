@@ -1,8 +1,6 @@
 name: Build godotcoacd for Web
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -42,5 +40,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: godotcoacd-web-${{ matrix.target }}-${{ matrix.threads }}
-          path: addons/godotcoacd/bin/*
+          name: godotcoacd-web-wasm32-${{ matrix.target }}-${{ matrix.threads }}
+          path: dist/*

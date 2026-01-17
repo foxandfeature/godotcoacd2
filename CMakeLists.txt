@@ -66,8 +66,6 @@ target_link_libraries(godotcoacd godot-cpp coacd spdlog::spdlog)
 
 if(MSVC)
     set(LIB_NAME "libgodotcoacd${NAME_SUFFIX}")
-elseif(IOS AND SDK_NAME STREQUAL "iphonesimulator")
-    set(LIB_NAME "godotcoacd${NAME_SUFFIX}.simulator")
 else()
     set(LIB_NAME "godotcoacd${NAME_SUFFIX}")
 endif()
@@ -86,7 +84,7 @@ set(GODOT_PROJECT_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/addons/godotcoacd/bin"
 if(IOS)
     set(GODOT_PROJECT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/bin")
 else()
-    set(GODOT_PROJECT_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/addons/godotcoacd/bin")
+    set(GODOT_PROJECT_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dist")
 endif()
 
 add_custom_command(TARGET godotcoacd POST_BUILD

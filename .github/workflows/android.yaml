@@ -1,8 +1,6 @@
 name: Build godotcoacd for Android
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -42,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: godotcoacd-android-${{ matrix.arch }}-${{ matrix.target }}
-          path: addons/godotcoacd/bin/*
+          path: dist/*

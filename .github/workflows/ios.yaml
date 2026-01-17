@@ -1,8 +1,6 @@
 name: Build godotcoacd for iOS
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -32,51 +30,34 @@ jobs:
       - name: Build
         run: cmake --build build --target godotcoacd --config Release --parallel
       
-      - name: Configure CMake for iOS Simulator
-        run: |
-          cmake -S . -B build-sim \
-            -G Xcode \
-            --toolchain godot-cpp/cmake/ios.toolchain.cmake \
-            -DPLATFORM=SIMULATORARM64 \
-            -DGODOTCPP_TARGET=${{ matrix.target }}
-            
-      - name: Build
-        run: cmake --build build-sim --target godotcoacd --config Release --parallel
-      
       - name: Create XCFrameworks
         run: |
           xcodebuild -create-xcframework \
             -library build/bin/libgodotcoacd.ios.${{ matrix.target }}.arm64.a \
-            -library build-sim/bin/libgodotcoacd.ios.${{ matrix.target }}.arm64.simulator.a \
-            -output addons/godotcoacd/bin/libgodotcoacd.ios.${{ matrix.target }}.xcframework
+            -output dist/libgodotcoacd.ios.${{ matrix.target }}.xcframework
 
           xcodebuild -create-xcframework \
             -library build/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
-            -library build-sim/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
-            -output addons/godotcoacd/bin/libgodot-cpp.ios.${{ matrix.target }}.xcframework
+            -output dist/libgodot-cpp.ios.${{ matrix.target }}.xcframework
           
           xcodebuild -create-xcframework \
             -library build/CoACD-godot-src/Release-iphoneos/libcoacd.a \
-            -library build-sim/CoACD-godot-src/Release-iphonesimulator/libcoacd.a \
-            -output addons/godotcoacd/bin/libcoacd.ios.${{ matrix.target }}.xcframework
+            -output dist/libcoacd.ios.${{ matrix.target }}.xcframework
           
           xcodebuild -create-xcframework \
             -library build/_deps/spdlog-build/Release-iphoneos/libspdlog.a \
-            -library build-sim/_deps/spdlog-build/Release-iphonesimulator/libspdlog.a \
-            -output addons/godotcoacd/bin/libspdlog.ios.${{ matrix.target }}.xcframework
+            -output dist/libspdlog.ios.${{ matrix.target }}.xcframework
           
           xcodebuild -create-xcframework \
             -library build/_deps/openvdb-build/openvdb/openvdb/Release-iphoneos/libopenvdb.a \
-            -library build-sim/_deps/openvdb-build/openvdb/openvdb/Release-iphonesimulator/libopenvdb.a \
-            -output addons/godotcoacd/bin/libopenvdb.ios.${{ matrix.target }}.xcframework
+            -output dist/libopenvdb.ios.${{ matrix.target }}.xcframework
           
           xcodebuild -create-xcframework \
             -library build/appleclang_17.0_cxx20_64_release/libtbb.a \
-            -library build-sim/appleclang_17.0_cxx20_64_release/libtbb.a \
-            -output addons/godotcoacd/bin/libtbb.ios.${{ matrix.target }}.xcframework
+            -output dist/libtbb.ios.${{ matrix.target }}.xcframework
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: godotcoacd-ios-${{ matrix.target }}
-          path: addons/godotcoacd/bin/*
+          name: godotcoacd-ios-arm64-${{ matrix.target }}
+          path: dist/*

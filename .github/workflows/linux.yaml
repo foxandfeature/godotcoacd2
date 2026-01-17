@@ -1,8 +1,6 @@
 name: Build godotcoacd for Linux
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -109,4 +107,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: godotcoacd-linux-${{ matrix.arch }}-${{ matrix.target }}
-          path: addons/godotcoacd/bin/*
+          path: dist/*
