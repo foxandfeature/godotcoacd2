@@ -58,7 +58,9 @@ jobs:
               ;;
           esac
 
-          OMP_SRC="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/19/lib/linux/$OMP_ARCH/libomp.so"
+          ls "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64"
+
+          OMP_SRC="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/19/lib/linux/$OMP_ARCH/libomp.so"
           OMP_DST="build/godotcoacd_dist/libomp.ios.${OMP_SUFFIX}.so"
 
           cp "$OMP_SRC" "$OMP_DST"
