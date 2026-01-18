@@ -129,11 +129,7 @@ if(EMSCRIPTEN)
 endif()
 
 if(ANDROID)
-    find_package(OpenMP)
-    if(OpenMP_CXX_FOUND)
-        get_target_property(OPENMP_PATH OpenMP::OpenMP_CXX IMPORTED_LOCATION)
-        message("OpenMP library path: ${OPENMP_PATH}")
-    endif()
+    target_link_libraries(godotcoacd PUBLIC omp)
 endif()
 
 # ------------------------------------------------------------------------------
