@@ -42,3 +42,15 @@ ios.release = {
 	"res://addons/godotcoacd/bin/libopenvdb.ios.template_release.xcframework": "",
 	"res://addons/godotcoacd/bin/libtbb.ios.template_release.xcframework": ""
 }
+android.x86_64 = {
+	"res://addons/godotcoacd/bin/libomp.android.x86_64/libomp.so": ""
+}
+android.x86_32 = {
+	"res://addons/godotcoacd/bin/libomp.android.x86_32/libomp.so": ""
+}
+android.arm64 = {
+	"res://addons/godotcoacd/bin/libomp.android.arm64/libomp.so": ""
+}
+android.arm32 = {
+	"res://addons/godotcoacd/bin/libomp.android.arm32/libomp.so": ""
+}

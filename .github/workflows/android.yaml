@@ -59,11 +59,12 @@ jobs:
           esac
 
           OMP_SRC="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/$OMP_ARCH/libomp.so"
-          OMP_DST="build/godotcoacd_dist/libomp.ios.${OMP_SUFFIX}.so"
+          OMP_DIR="build/godotcoacd_dist/libomp.android.${OMP_SUFFIX}"
+          OMP_DST="$OMP_DIR/libomp.so"
 
+          mkdir -p "$OMP_DIR"
           cp "$OMP_SRC" "$OMP_DST"
 
-      
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
