@@ -129,7 +129,8 @@ if(EMSCRIPTEN)
 endif()
 
 if(ANDROID)
-    target_link_libraries(${PROJECT_NAME} PUBLIC omp)
+    get_target_property(OPENMP_PATH OpenMP::OpenMP_CXX IMPORTED_LOCATION)
+    message("OpenMP library path: ${OPENMP_PATH}")
 endif()
 
 # ------------------------------------------------------------------------------
