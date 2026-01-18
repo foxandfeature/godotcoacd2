@@ -94,27 +94,34 @@ if(DOC_XML AND GODOTCPP_TARGET MATCHES "editor|template_debug")
 endif()
 
 # ------------------------------------------------------------------------------
-# MSVC architecture suffix fix (GodotCPP workaround)
+# Architecture suffix fix (MSVC + Linux GCC)
 # ------------------------------------------------------------------------------
 
 if(MSVC)
     if(CMAKE_VS_PLATFORM_NAME STREQUAL "Win32")
-        set(_MSVC_ARCH x86_32)
+        set(_ARCH x86_32)
     elseif(CMAKE_VS_PLATFORM_NAME STREQUAL "x64")
-        set(_MSVC_ARCH x86_64)
+        set(_ARCH x86_64)
     elseif(CMAKE_VS_PLATFORM_NAME STREQUAL "ARM64")
-        set(_MSVC_ARCH arm64)
+        set(_ARCH arm64)
     endif()
 
-    if(DEFINED _MSVC_ARCH)
-        string(REGEX REPLACE
-            "\\.(x86_64)"
-            ".${_MSVC_ARCH}"
-            NAME_SUFFIX
-            "${NAME_SUFFIX}"
-        )
+elseif(LINUX AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(CMAKE_CXX_FLAGS MATCHES "-m32")
+        set(_ARCH x86_32)
     endif()
+endif()
 
+if(DEFINED _ARCH)
+    string(REGEX REPLACE
+        "\\.(x86_64)"
+        ".${_ARCH}"
+        NAME_SUFFIX
+        "${NAME_SUFFIX}"
+    )
+endif()
+
+if(MSVC)
     set(LIB_NAME "libgodotcoacd${NAME_SUFFIX}")
 else()
     set(LIB_NAME "godotcoacd${NAME_SUFFIX}")
