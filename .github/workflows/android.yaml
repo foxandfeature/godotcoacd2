@@ -59,6 +59,8 @@ jobs:
           esac
 
           ls "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64"
+          ls "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib"
+          ls "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang"
           ls "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/19/"
 
           OMP_SRC="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/19/lib/linux/$OMP_ARCH/libomp.so"
