@@ -128,10 +128,6 @@ if(EMSCRIPTEN)
     set_target_properties(godotcoacd PROPERTIES SUFFIX ".wasm")
 endif()
 
-if(ANDROID)
-    target_link_libraries(godotcoacd PUBLIC omp)
-endif()
-
 # ------------------------------------------------------------------------------
 # Output location and post-build copy
 # ------------------------------------------------------------------------------
