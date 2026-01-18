@@ -24,18 +24,18 @@ jobs:
       - name: Set up Android SDK and NDK
         uses: android-actions/setup-android@v2
 
-      # - name: Configure CMake
-      #   run: |
-      #     cmake -S . -B build \
-      #       -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
-      #       -DANDROID_ABI=${{ matrix.arch }} \
-      #       -DANDROID_PLATFORM=android-21 \
-      #       -DGODOTCPP_TARGET=${{ matrix.target }} \
-      #       -DCMAKE_BUILD_TYPE=Release
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+            -DANDROID_ABI=${{ matrix.arch }} \
+            -DANDROID_PLATFORM=android-21 \
+            -DGODOTCPP_TARGET=${{ matrix.target }} \
+            -DCMAKE_BUILD_TYPE=Release
 
-      # - name: Build godotcoacd
-      #   run: |
-      #     cmake --build build --target godotcoacd --parallel 2
+      - name: Build godotcoacd
+        run: |
+          cmake --build build --target godotcoacd --parallel 2
       
       - name: Copy libomp.so for Android
         run: |
