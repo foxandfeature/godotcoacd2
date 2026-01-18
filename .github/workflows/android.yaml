@@ -60,7 +60,7 @@ jobs:
 
           OMP_SRC="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/$OMP_ARCH/libomp.so"
           OMP_DST="build/godotcoacd_dist/libomp.ios.${OMP_SUFFIX}.so"
-          mkdir -p "$(dirname "$OMP_DST")"
+
           cp "$OMP_SRC" "$OMP_DST"
 
       
