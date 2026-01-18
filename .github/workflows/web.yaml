@@ -1,11 +1,11 @@
 name: Build godotcoacd for Web
 
 on:
-  workflow_call:
+  workflow_dispatch:
 
 jobs:
   emscripten:
-    name: Web (wasm32 / ${{ matrix.target }} / threads=${{ matrix.threads }})
+    name: wasm32 - ${{ matrix.target }} - threads=${{ matrix.threads }}
     runs-on: ubuntu-latest
 
     strategy:

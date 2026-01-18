@@ -5,7 +5,7 @@ on:
 
 jobs:
   macos:
-    name: macOS (universal / ${{ matrix.target }})
+    name: universal - ${{ matrix.target }}
     runs-on: macos-latest
 
     strategy:
@@ -22,7 +22,7 @@ jobs:
       - name: Configure CMake
         run: |
           cmake -S . -B build \
-            -G "Unix Makefiles" \
+            -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
             -DCMAKE_BUILD_TYPE=Release \
             -DGODOTCPP_TARGET=${{ matrix.target }}
 
@@ -34,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: godotcoacd-macos-universial-${{ matrix.target }}
-          path: dist/*
+          path: build/godotcoacd_dist/*

@@ -5,7 +5,7 @@ on:
 
 jobs:
   linux:
-    name: Linux (${{ matrix.arch }} / ${{ matrix.target }})
+    name: ${{ matrix.arch }} - ${{ matrix.target }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -107,4 +107,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: godotcoacd-linux-${{ matrix.arch }}-${{ matrix.target }}
-          path: dist/*
+          path: build/godotcoacd_dist/*

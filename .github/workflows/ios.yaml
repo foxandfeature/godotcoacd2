@@ -5,7 +5,7 @@ on:
 
 jobs:
   ios:
-    name: iOS (arm64/ ${{ matrix.target }})
+    name: arm64 - ${{ matrix.target }}
     runs-on: macos-latest
 
     strategy:
@@ -34,30 +34,30 @@ jobs:
         run: |
           xcodebuild -create-xcframework \
             -library build/bin/libgodotcoacd.ios.${{ matrix.target }}.arm64.a \
-            -output dist/libgodotcoacd.ios.${{ matrix.target }}.xcframework
+            -output build/godotcoacd_dist/libgodotcoacd.ios.${{ matrix.target }}.xcframework
 
           xcodebuild -create-xcframework \
             -library build/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
-            -output dist/libgodot-cpp.ios.${{ matrix.target }}.xcframework
+            -output build/godotcoacd_dist/libgodot-cpp.ios.${{ matrix.target }}.xcframework
           
           xcodebuild -create-xcframework \
             -library build/CoACD-godot-src/Release-iphoneos/libcoacd.a \
-            -output dist/libcoacd.ios.${{ matrix.target }}.xcframework
+            -output build/godotcoacd_dist/libcoacd.ios.${{ matrix.target }}.xcframework
           
           xcodebuild -create-xcframework \
             -library build/_deps/spdlog-build/Release-iphoneos/libspdlog.a \
-            -output dist/libspdlog.ios.${{ matrix.target }}.xcframework
+            -output build/godotcoacd_dist/libspdlog.ios.${{ matrix.target }}.xcframework
           
           xcodebuild -create-xcframework \
             -library build/_deps/openvdb-build/openvdb/openvdb/Release-iphoneos/libopenvdb.a \
-            -output dist/libopenvdb.ios.${{ matrix.target }}.xcframework
+            -output build/godotcoacd_dist/libopenvdb.ios.${{ matrix.target }}.xcframework
           
           xcodebuild -create-xcframework \
             -library build/appleclang_17.0_cxx20_64_release/libtbb.a \
-            -output dist/libtbb.ios.${{ matrix.target }}.xcframework
+            -output build/godotcoacd_dist/libtbb.ios.${{ matrix.target }}.xcframework
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: godotcoacd-ios-arm64-${{ matrix.target }}
-          path: dist/*
+          path: build/godotcoacd_dist/*
