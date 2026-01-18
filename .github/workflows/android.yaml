@@ -59,13 +59,7 @@ jobs:
           esac
 
           ls "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/
-          # ls "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib
-          # ls "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux
-
-          # OMP_SRC="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/$OMP_ARCH/libomp.so"
-          # OMP_DST="build/godotcoacd_dist/libomp.ios.${OMP_SUFFIX}.so"
-
-          # cp "$OMP_SRC" "$OMP_DST"
+       
 
       
       - name: Upload artifacts
