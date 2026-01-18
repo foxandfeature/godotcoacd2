@@ -129,8 +129,11 @@ if(EMSCRIPTEN)
 endif()
 
 if(ANDROID)
-    get_target_property(OPENMP_PATH OpenMP::OpenMP_CXX IMPORTED_LOCATION)
-    message("OpenMP library path: ${OPENMP_PATH}")
+    find_package(OpenMP)
+    if(OpenMP_CXX_FOUND)
+        get_target_property(OPENMP_PATH OpenMP::OpenMP_CXX IMPORTED_LOCATION)
+        message("OpenMP library path: ${OPENMP_PATH}")
+    endif()
 endif()
 
 # ------------------------------------------------------------------------------
