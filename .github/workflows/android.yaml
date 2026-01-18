@@ -58,7 +58,7 @@ jobs:
               ;;
           esac
 
-          ls "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/
+          ls "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/"
        
 
       
