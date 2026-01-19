@@ -50,7 +50,7 @@ jobs:
       - name: Download all platform artifacts
         uses: actions/download-artifact@v4
         with:
-          path: plugin/addons/godotcoacd/bin
+          path: plugin/addons/godotcoacd/plugin/bin
           merge-multiple: true
 
       - name: Upload combined artifacts
