@@ -1,3 +1,7 @@
 build
 .vscode
-.DS_Store
+plugin/*
+!plugin/addons/
+plugin/addons/godotcoacd/plugin/bin/*
+!plugin/addons/godotcoacd/plugin/bin/godotcoacd.gdextension
+plugin/**/*.uid

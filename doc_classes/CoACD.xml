@@ -69,17 +69,17 @@
 		</signal>
 	</signals>
 	<constants>
-		<constant name="OFF" value="0" enum="LogLevels">
+		<constant name="LOG_OFF" value="0" enum="LogLevels">
 		</constant>
-		<constant name="DEBUG" value="1" enum="LogLevels">
+		<constant name="LOG_DEBUG" value="1" enum="LogLevels">
 		</constant>
-		<constant name="INFO" value="2" enum="LogLevels">
+		<constant name="LOG_INFO" value="2" enum="LogLevels">
 		</constant>
-		<constant name="WARNING" value="3" enum="LogLevels">
+		<constant name="LOG_WARNING" value="3" enum="LogLevels">
 		</constant>
-		<constant name="ERROR" value="4" enum="LogLevels">
+		<constant name="LOG_ERROR" value="4" enum="LogLevels">
 		</constant>
-		<constant name="CRITICAL" value="5" enum="LogLevels">
+		<constant name="LOG_CRITICAL" value="5" enum="LogLevels">
 		</constant>
 	</constants>
 </class>
