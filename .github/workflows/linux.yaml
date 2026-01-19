@@ -102,7 +102,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --build build --target godotcoacd --parallel
+          cmake --build build --target godotcoacd --parallel $(nproc)
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

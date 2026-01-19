@@ -35,7 +35,7 @@ jobs:
 
       - name: Build godotcoacd
         run: |
-          cmake --build build --target godotcoacd --parallel
+          cmake --build build --target godotcoacd --parallel $(nproc)
       
       - name: Copy libomp.so for Android
         run: |
