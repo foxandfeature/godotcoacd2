@@ -29,7 +29,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --build build --target godotcoacd --parallel $(( $(sysctl -n hw.ncpu) - 1 ))
+          cmake --build build --target godotcoacd --parallel
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

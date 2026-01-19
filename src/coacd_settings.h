@@ -1,15 +1,14 @@
 #ifndef COACD_SETTINGS_H
 #define COACD_SETTINGS_H
 
-#include <godot_cpp/classes/ref_counted.hpp>
-#include <godot_cpp/classes/ref.hpp>
+#include <godot_cpp/classes/resource.hpp>
 
 namespace godot
 {
 
-	class CoACDSettings : public RefCounted
+	class CoACDSettings : public Resource
 	{
-		GDCLASS(CoACDSettings, RefCounted)
+		GDCLASS(CoACDSettings, Resource)
 
 	protected:
 		static void _bind_methods();
