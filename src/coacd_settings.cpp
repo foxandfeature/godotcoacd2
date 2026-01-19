@@ -75,7 +75,24 @@ void CoACDSettings::_bind_methods()
     ADD_PROPERTY(PropertyInfo(Variant::INT, "seed"), "set_seed", "get_seed");
 }
 
-CoACDSettings::CoACDSettings() {}
+CoACDSettings::CoACDSettings() {
+    threshold = 0.05;
+    max_convex_hulls = -1;
+    preprocess_mode = OFF;
+    preprocess_resolution = 50;
+    sample_resolution = 2000;
+    mcts_nodes = 20;
+    mcts_iterations = 150;
+    mcts_max_depth = 3;
+    pca = false;
+    merge_postprocessing = true;
+    decimate = false;
+    max_ch_vertex = 256;
+    extrude = false;
+    extrude_margin = 0.01;
+    approximation_mode = CONVEX;
+    seed = 0;
+}
 CoACDSettings::~CoACDSettings() {}
 
 void CoACDSettings::set_threshold(const double p_threshold) { threshold = p_threshold; }

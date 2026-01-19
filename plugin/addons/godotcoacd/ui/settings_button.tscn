@@ -1,4 +1,0 @@
-[gd_scene format=3 uid="uid://bfl06uotk40rm"]
-
-[node name="SettingsButton" type="Button"]
-text = "CoACD Settings"

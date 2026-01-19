@@ -17,8 +17,8 @@ void initialize_godotcoacd_module(ModuleInitializationLevel p_level)
         return;
     }
 
-    GDREGISTER_RUNTIME_CLASS(CoACD);
-    GDREGISTER_RUNTIME_CLASS(CoACDSettings);
+    GDREGISTER_CLASS(CoACD);
+    GDREGISTER_CLASS(CoACDSettings);
 
     memnew(CoACD);
     Engine::get_singleton()->register_singleton("CoACD", CoACD::instance);

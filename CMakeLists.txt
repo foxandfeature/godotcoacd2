@@ -109,17 +109,18 @@ if(MSVC)
 elseif(LINUX AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     if(CMAKE_CXX_FLAGS MATCHES "-m32")
         set(_ARCH x86_32)
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm")
+        set(_ARCH arm32)
     endif()
 endif()
 
 if(DEFINED _ARCH)
     string(REGEX REPLACE
-        "\\.(x86_64)"
+        "\\.(x86_64|x86_32|arm64|arm)"
         ".${_ARCH}"
         NAME_SUFFIX
         "${NAME_SUFFIX}"
     )
-endif()
 
 if(MSVC)
     set(LIB_NAME "libgodotcoacd${NAME_SUFFIX}")

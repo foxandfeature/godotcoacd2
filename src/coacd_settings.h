@@ -79,22 +79,22 @@ namespace godot
 		unsigned int get_seed() const;
 
 	private:
-		double threshold = 0.05;
-		int max_convex_hulls = -1;
-		PreprocessModes preprocess_mode = OFF;
-		int preprocess_resolution = 50;
-		int sample_resolution = 2000;
-		int mcts_nodes = 20;
-		int mcts_iterations = 150;
-		int mcts_max_depth = 3;
-		bool pca = false;
-		bool merge_postprocessing = true;
-		bool decimate = false;
-		int max_ch_vertex = 256;
-		bool extrude = false;
-		double extrude_margin = 0.01;
-		ApproximationModes approximation_mode = CONVEX;
-		unsigned int seed = 0;
+		double threshold;
+		int max_convex_hulls;
+		PreprocessModes preprocess_mode;
+		int preprocess_resolution;
+		int sample_resolution;
+		int mcts_nodes;
+		int mcts_iterations;
+		int mcts_max_depth;
+		bool pca;
+		bool merge_postprocessing;
+		bool decimate;
+		int max_ch_vertex;
+		bool extrude;
+		double extrude_margin;
+		ApproximationModes approximation_mode;
+		unsigned int seed;
 	};
 
 }
