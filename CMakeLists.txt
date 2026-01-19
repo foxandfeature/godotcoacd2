@@ -121,6 +121,7 @@ if(DEFINED _ARCH)
         NAME_SUFFIX
         "${NAME_SUFFIX}"
     )
+endif()
 
 if(MSVC)
     set(LIB_NAME "libgodotcoacd${NAME_SUFFIX}")
