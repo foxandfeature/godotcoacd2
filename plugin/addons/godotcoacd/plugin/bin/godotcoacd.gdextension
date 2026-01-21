@@ -66,3 +66,12 @@ android.arm64 = {
 android.arm32 = {
 	"res://addons/godotcoacd/plugin/bin/libomp.android.arm32/libomp.so": ""
 }
+windows.x86_64 = {
+	"res://addons/godotcoacd/plugin/bin/libomp.android.x86_64/vcomp140.dll": ""
+}
+windows.x86_32 = {
+	"res://addons/godotcoacd/plugin/bin/libomp.android.x86_32/vcomp140.dll": ""
+}
+windows.arm64 = {
+	"res://addons/godotcoacd/plugin/bin/libomp.android.arm64/vcomp140.dll": ""
+}
