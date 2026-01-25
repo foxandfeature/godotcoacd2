@@ -38,6 +38,7 @@ jobs:
       #     cmake --build build --target godotcoacd --config Release --parallel
         
       - name: Copy libomp.so for Android
+        shell: bash
         run: |
           case "${{ matrix.arch }}" in
             x64)
