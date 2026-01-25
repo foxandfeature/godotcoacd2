@@ -16,31 +16,31 @@ jobs:
         target: [template_debug, template_release]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      # - name: Checkout repository
+      #   uses: actions/checkout@v4
+      #   with:
+      #     submodules: recursive
 
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{ matrix.arch }}
 
-      - name: Configure CMake
-        run: |
-          cmake -S . -B build `
-            -G "Visual Studio 17 2022" `
-            -A ${{ matrix.arch }} `
-            -DGODOTCPP_TARGET=${{ matrix.target }}
+      # - name: Configure CMake
+      #   run: |
+      #     cmake -S . -B build `
+      #       -G "Visual Studio 17 2022" `
+      #       -A ${{ matrix.arch }} `
+      #       -DGODOTCPP_TARGET=${{ matrix.target }}
 
-      - name: Build
-        run: |
-          cmake --build build --target godotcoacd --config Release --parallel
+      # - name: Build
+      #   run: |
+      #     cmake --build build --target godotcoacd --config Release --parallel
         
       - name: Copy libomp.so for Android
         run: |
           case "${{ matrix.arch }}" in
-           x64)
+            x64)
               OMP_ARCH=x64
               OMP_SUFFIX=x86_64
               ;;
