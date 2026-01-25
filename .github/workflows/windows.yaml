@@ -37,30 +37,30 @@ jobs:
       #   run: |
       #     cmake --build build --target godotcoacd --config Release --parallel
         
-      - name: Copy libomp.so for Android
+      - name: Copy OpenMP runtime
         shell: bash
         run: |
           case "${{ matrix.arch }}" in
             x64)
-              OMP_ARCH=x64
               OMP_SUFFIX=x86_64
               ;;
             Win32)
-              OMP_ARCH=x86
-              OMP_SUFFIXx86_32
+              OMP_SUFFIX=x86_32
               ;;
             ARM64)
-              OMP_ARCH=arm64
               OMP_SUFFIX=arm64
               ;;
           esac
 
-          OMP_SRC="OMP_SRC=%VCToolsRedistDir%\%OMP_SUFFIX%\Microsoft.VC143.OpenMP\vcomp140.dll"
-          OMP_DIR="build/godotcoacd_dist/libomp.windows.${OMP_SUFFIX}"
+          echo "VCToolsRedistDir=$VCToolsRedistDir"
+
+          OMP_SRC="$VCToolsRedistDir/$OMP_SUFFIX/Microsoft.VC143.OpenMP/vcomp140.dll"
+          OMP_DIR="build/godotcoacd_dist/libomp.windows.$OMP_SUFFIX"
           OMP_DST="$OMP_DIR/vcomp140.dll"
 
           mkdir -p "$OMP_DIR"
           cp "$OMP_SRC" "$OMP_DST"
+
     
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
