@@ -55,7 +55,7 @@ jobs:
               ;;
           esac
 
-          OMP_SRC="OMP_SRC="%VCToolsRedistDir%\%OMP_SUFFIX%\Microsoft.VC143.OpenMP\vcomp140.dll"
+          OMP_SRC="OMP_SRC=%VCToolsRedistDir%\%OMP_SUFFIX%\Microsoft.VC143.OpenMP\vcomp140.dll"
           OMP_DIR="build/godotcoacd_dist/libomp.windows.${OMP_SUFFIX}"
           OMP_DST="$OMP_DIR/vcomp140.dll"
 
