@@ -47,7 +47,7 @@ jobs:
               ;;
             Win32)
               OMP_ARCH=x86
-              OMP_SUFFIXx86_32
+              OMP_SUFFIX=86_32
               ;;
             ARM64)
               OMP_ARCH=arm64
