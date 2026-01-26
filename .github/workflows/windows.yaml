@@ -17,10 +17,13 @@ jobs:
         include:
           - arch: x64
             win_suffix: x86_64
+            omp_arch: x64
           - arch: Win32
             win_suffix: x86_32
+            omp_arch: x86
           - arch: ARM64
             win_suffix: arm64
+            omp_arch: arm64
 
     steps:
       - uses: actions/checkout@v4
@@ -46,7 +49,7 @@ jobs:
       - name: Copy OpenMP runtime
         shell: bash
         run: |
-          cp "$VCToolsRedistDir/${{ matrix.arch }}/Microsoft.VC143.OpenMP/vcomp140.dll" \
+          cp "$VCToolsRedistDir/${{ matrix.omp_arch }}/Microsoft.VC143.OpenMP/vcomp140.dll" \
              "build/godotcoacd_release/vcomp140.dll"
 
       - name: Prepare artifact
