@@ -6,8 +6,8 @@ on:
 
 jobs:
   emscripten:
-    name: wasm32 - ${{ matrix.target }} - threads=${{ matrix.threads }}
     runs-on: ubuntu-latest
+    name: wasm32 - ${{ matrix.target }} - threads=${{ matrix.threads }}
 
     strategy:
       fail-fast: false
@@ -27,19 +27,25 @@ jobs:
           version: latest
 
       - name: Configure CMake
-        run: |
-          emcmake cmake -S . -B build \
-            -G "Unix Makefiles" \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DGODOTCPP_TARGET=${{ matrix.target }} \
-            -DGODOTCPP_THREADS=${{ matrix.threads }}
+        run: >
+          emcmake cmake -S . -B build
+          -G "Unix Makefiles"
+          -DCMAKE_BUILD_TYPE=Release
+          -DGODOTCPP_TARGET=${{ matrix.target }}
+          -DGODOTCPP_THREADS=${{ matrix.threads }}
 
-      - name: Build
+      - name: Build godotcoacd
+        run: cmake --build build --target godotcoacd --parallel $(nproc)
+
+      - name: Prepare artifact
+        shell: bash
         run: |
-          cmake --build build --target godotcoacd --parallel $(nproc)
+          ARTIFACT_DIR="artifact/web.wasm32.threads_${{ matrix.threads }}"
+          mkdir -p "$ARTIFACT_DIR"
+          cp -r build/godotcoacd_release/* "$ARTIFACT_DIR/"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: godotcoacd-web-wasm32-${{ matrix.target }}-${{ matrix.threads }}
-          path: build/godotcoacd_dist/*
+          name: godotcoacd-web-wasm32-${{ matrix.target }}-threads=${{ matrix.threads }}
+          path: artifact/

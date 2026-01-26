@@ -6,8 +6,8 @@ on:
 
 jobs:
   ios:
-    name: arm64 - ${{ matrix.target }}
     runs-on: macos-latest
+    name: arm64 - ${{ matrix.target }}
 
     strategy:
       fail-fast: false
@@ -21,44 +21,57 @@ jobs:
           submodules: recursive
 
       - name: Configure CMake for iOS
-        run: |
-          cmake -S . -B build \
-            -G Xcode \
-            --toolchain godot-cpp/cmake/ios.toolchain.cmake \
-            -DPLATFORM=OS64 \
-            -DGODOTCPP_TARGET=${{ matrix.target }}
-            
-      - name: Build
-        run: cmake --build build --target godotcoacd --config Release --parallel
-      
-      - name: Create XCFrameworks
-        run: |
-          xcodebuild -create-xcframework \
-            -library build/bin/libgodotcoacd.ios.${{ matrix.target }}.arm64.a \
-            -output build/godotcoacd_dist/libgodotcoacd.ios.${{ matrix.target }}.xcframework
+        run: >
+          cmake -S . -B build
+          -G Xcode
+          --toolchain godot-cpp/cmake/ios.toolchain.cmake
+          -DPLATFORM=OS64
+          -DGODOTCPP_TARGET=${{ matrix.target }}
 
-          xcodebuild -create-xcframework \
-            -library build/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
-            -output build/godotcoacd_dist/libgodot-cpp.ios.${{ matrix.target }}.xcframework
-          
-          xcodebuild -create-xcframework \
-            -library build/CoACD-godot-src/Release-iphoneos/libcoacd.a \
-            -output build/godotcoacd_dist/libcoacd.ios.${{ matrix.target }}.xcframework
-          
-          xcodebuild -create-xcframework \
-            -library build/_deps/spdlog-build/Release-iphoneos/libspdlog.a \
-            -output build/godotcoacd_dist/libspdlog.ios.${{ matrix.target }}.xcframework
-          
-          xcodebuild -create-xcframework \
-            -library build/_deps/openvdb-build/openvdb/openvdb/Release-iphoneos/libopenvdb.a \
-            -output build/godotcoacd_dist/libopenvdb.ios.${{ matrix.target }}.xcframework
-          
-          xcodebuild -create-xcframework \
-            -library build/appleclang_17.0_cxx20_64_release/libtbb.a \
-            -output build/godotcoacd_dist/libtbb.ios.${{ matrix.target }}.xcframework
+      - name: Build godotcoacd
+        run: cmake --build build --target godotcoacd --config Release --parallel
+
+      - name: Create XCFrameworks
+        shell: bash
+        run: |
+          DIST_DIR="build/godotcoacd_release"
+          mkdir -p "$DIST_DIR"
+
+          create_xcframework() {
+            local LIB_PATH="$1"
+            local OUT_NAME="$2"
+            xcodebuild -create-xcframework \
+              -library "$LIB_PATH" \
+              -output "$DIST_DIR/$OUT_NAME"
+          }
+
+          create_xcframework build/bin/libgodotcoacd.ios.${{ matrix.target }}.arm64.a \
+            libgodotcoacd.ios.${{ matrix.target }}.xcframework
+
+          create_xcframework build/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
+            libgodot-cpp.ios.${{ matrix.target }}.xcframework
+
+          create_xcframework build/CoACD-godot-src/Release-iphoneos/libcoacd.a \
+            libcoacd.ios.${{ matrix.target }}.xcframework
+
+          create_xcframework build/_deps/spdlog-build/Release-iphoneos/libspdlog.a \
+            libspdlog.ios.${{ matrix.target }}.xcframework
+
+          create_xcframework build/_deps/openvdb-build/openvdb/openvdb/Release-iphoneos/libopenvdb.a \
+            libopenvdb.ios.${{ matrix.target }}.xcframework
+
+          create_xcframework build/appleclang_17.0_cxx20_64_release/libtbb.a \
+            libtbb.ios.${{ matrix.target }}.xcframework
+
+      - name: Prepare artifact
+        shell: bash
+        run: |
+          ARTIFACT_DIR="artifact/ios.arm64"
+          mkdir -p "$ARTIFACT_DIR"
+          cp -r build/godotcoacd_release/* "$ARTIFACT_DIR/"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: godotcoacd-ios-arm64-${{ matrix.target }}
-          path: build/godotcoacd_dist/*
+          path: artifact/

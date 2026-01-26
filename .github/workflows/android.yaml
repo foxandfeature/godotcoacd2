@@ -6,13 +6,25 @@ on:
 
 jobs:
   android:
-    name: ${{ matrix.arch }} - ${{ matrix.target }}
     runs-on: ubuntu-latest
+    name: ${{ matrix.abi }} - ${{ matrix.target }}
 
     strategy:
       fail-fast: false
       matrix:
-        arch: [arm64-v8a, armeabi-v7a, x86_64, x86]
+        include:
+          - abi: arm64-v8a
+            omp_arch: aarch64
+            omp_suffix: arm64
+          - abi: armeabi-v7a
+            omp_arch: arm
+            omp_suffix: arm32
+          - abi: x86
+            omp_arch: i386
+            omp_suffix: x86_32
+          - abi: x86_64
+            omp_arch: x86_64
+            omp_suffix: x86_64
         target: [template_debug, template_release]
 
     steps:
@@ -25,48 +37,34 @@ jobs:
         uses: android-actions/setup-android@v2
 
       - name: Configure CMake
-        run: |
-          cmake -S . -B build \
-            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
-            -DANDROID_ABI=${{ matrix.arch }} \
-            -DANDROID_PLATFORM=android-21 \
-            -DGODOTCPP_TARGET=${{ matrix.target }} \
-            -DCMAKE_BUILD_TYPE=Release
+        run: >
+          cmake -S . -B build
+          -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake
+          -DANDROID_ABI=${{ matrix.abi }}
+          -DANDROID_PLATFORM=android-21
+          -DGODOTCPP_TARGET=${{ matrix.target }}
+          -DCMAKE_BUILD_TYPE=Release
 
       - name: Build godotcoacd
-        run: |
-          cmake --build build --target godotcoacd --parallel $(nproc)
-      
-      - name: Copy libomp.so for Android
-        run: |
-          case "${{ matrix.arch }}" in
-            arm64-v8a)
-              OMP_ARCH=aarch64
-              OMP_SUFFIX=arm64
-              ;;
-            armeabi-v7a)
-              OMP_ARCH=arm
-              OMP_SUFFIX=arm32
-              ;;
-            x86)
-              OMP_ARCH=i386
-              OMP_SUFFIX=x86_32
-              ;;
-            x86_64)
-              OMP_ARCH=x86_64
-              OMP_SUFFIX=x86_64
-              ;;
-          esac
+        run: cmake --build build --target godotcoacd --parallel $(nproc)
 
-          OMP_SRC="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/$OMP_ARCH/libomp.so"
-          OMP_DIR="build/godotcoacd_dist/libomp.android.${OMP_SUFFIX}"
-          OMP_DST="$OMP_DIR/libomp.so"
+      - name: Copy OpenMP runtime
+        run: |
+          OMP_SRC="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/${{ matrix.omp_arch }}/libomp.so"
+          OMP_DIR="build/godotcoacd_release/libomp.android.${{ matrix.omp_suffix }}"
 
           mkdir -p "$OMP_DIR"
-          cp "$OMP_SRC" "$OMP_DST"
+          cp "$OMP_SRC" "$OMP_DIR/libomp.so"
+
+      - name: Prepare artifact
+        shell: bash
+        run: |
+          ARTIFACT_DIR="artifact/android.${{ matrix.omp_suffix }}"
+          mkdir -p "$ARTIFACT_DIR"
+          cp -r build/godotcoacd_release/* "$ARTIFACT_DIR/"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: godotcoacd-android-${{ matrix.arch }}-${{ matrix.target }}
-          path: build/godotcoacd_dist/*
+          name: godotcoacd-android-${{ matrix.abi }}-${{ matrix.target }}
+          path: artifact/

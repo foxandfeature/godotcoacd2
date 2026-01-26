@@ -17,10 +17,6 @@ set(OPENVDB_BUILD_VDB_PRINT OFF CACHE BOOL "" FORCE)
 # Platform-specific configuration
 # ------------------------------------------------------------------------------
 
-if(MSVC)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
-endif()
-
 if(EMSCRIPTEN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -Wno-missing-template-arg-list-after-template-kw -s USE_PTHREADS=1 -s SIDE_MODULE=1")
     set(BOOST_CONTEXT_IMPLEMENTATION "ucontext")
@@ -144,7 +140,7 @@ endif()
 if(IOS)
     set(GODOT_PROJECT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/bin")
 else()
-    set(GODOT_PROJECT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/godotcoacd_dist")
+    set(GODOT_PROJECT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/godotcoacd_release")
 endif()
 
 add_custom_command(
