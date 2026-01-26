@@ -12,6 +12,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        arch: [arm64-v8a, armeabi-v7a, x86_64, x86]
+        target: [template_debug, template_release]
         include:
           - abi: arm64-v8a
             omp_arch: aarch64
@@ -25,7 +27,7 @@ jobs:
           - abi: x86_64
             omp_arch: x86_64
             omp_suffix: x86_64
-        target: [template_debug, template_release]
+        
 
     steps:
       - name: Checkout repository

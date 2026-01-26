@@ -40,7 +40,7 @@ jobs:
       - name: Prepare artifact
         shell: bash
         run: |
-          ARTIFACT_DIR="artifact/web.wasm32.threads_${{ matrix.threads }}"
+          ARTIFACT_DIR="artifact/web.wasm32.threads=${{ matrix.threads }}"
           mkdir -p "$ARTIFACT_DIR"
           cp -r build/godotcoacd_release/* "$ARTIFACT_DIR/"
 

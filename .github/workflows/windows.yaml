@@ -12,6 +12,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        arch: [x64, Win32, ARM64]
+        target: [template_debug, template_release]
         include:
           - arch: x64
             win_suffix: x86_64
@@ -19,7 +21,6 @@ jobs:
             win_suffix: x86_32
           - arch: ARM64
             win_suffix: arm64
-        target: [template_debug, template_release]
 
     steps:
       - uses: actions/checkout@v4

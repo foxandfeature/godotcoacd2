@@ -12,6 +12,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        arch: [x64, x32, arm32, arm64, riscv64]
+        target: [template_debug, template_release]
         include:
           - arch: x64
             cc: gcc
@@ -67,8 +69,6 @@ jobs:
             sys_name: Linux
             sys_proc: riscv64
             suffix: riscv64
-
-        target: [template_debug, template_release]
 
     steps:
       - name: Checkout repository

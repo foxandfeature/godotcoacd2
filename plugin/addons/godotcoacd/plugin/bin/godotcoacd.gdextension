@@ -6,72 +6,72 @@ reloadable = true
 
 [libraries]
 
-macos.debug = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.macos.template_debug.universal.dylib"
-macos.release = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.macos.template_release.universal.dylib"
-ios.debug = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.ios.template_debug.xcframework"
-ios.release = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.ios.template_release.xcframework"
-windows.debug.x86_32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.windows.template_debug.x86_32.dll"
-windows.release.x86_32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.windows.template_release.x86_32.dll"
-windows.debug.x86_64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.windows.template_debug.x86_64.dll"
-windows.release.x86_64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.windows.template_release.x86_64.dll"
-windows.debug.arm64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.windows.template_debug.arm64.dll"
-windows.release.arm64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.windows.template_release.arm64.dll"
-linux.debug.x86_32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.linux.template_debug.x86_32.so"
-linux.release.x86_32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.linux.template_release.x86_32.so"
-linux.debug.x86_64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.linux.template_debug.x86_64.so"
-linux.release.x86_64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.linux.template_release.x86_64.so"
-linux.debug.arm32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.linux.template_debug.arm32.so"
-linux.release.arm32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.linux.template_release.arm32.so"
-linux.debug.arm64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.linux.template_debug.arm64.so"
-linux.release.arm64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.linux.template_release.arm64.so"
-linux.debug.rv64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.linux.template_debug.rv64.so"
-linux.release.rv64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.linux.template_release.rv64.so"
-android.debug.x86_32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.android.template_debug.x86_32.so"
-android.release.x86_32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.android.template_release.x86_32.so"
-android.debug.x86_64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.android.template_debug.x86_64.so"
-android.release.x86_64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.android.template_release.x86_64.so"
-android.debug.arm32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.android.template_debug.arm32.so"
-android.release.arm32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.android.template_release.arm32.so"
-android.debug.arm64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.android.template_debug.arm64.so"
-android.release.arm64 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.android.template_release.arm64.so"
-web.debug.threads.wasm32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.web.template_debug.wasm32.wasm"
-web.release.threads.wasm32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.web.template_release.wasm32.wasm"
-web.debug.wasm32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.web.template_debug.wasm32.nothreads.wasm"
-web.release.wasm32 = "res://addons/godotcoacd/plugin/bin/libgodotcoacd.web.template_release.wasm32.nothreads.wasm"
+macos.debug = "res://addons/godotcoacd/plugin/bin/macos.universal/libgodotcoacd.macos.template_debug.universal.dylib"
+macos.release = "res://addons/godotcoacd/plugin/bin/macos.universal/libgodotcoacd.macos.template_release.universal.dylib"
+ios.debug = "res://addons/godotcoacd/plugin/bin/ios.arm64/libgodotcoacd.ios.template_debug.xcframework"
+ios.release = "res://addons/godotcoacd/plugin/bin/ios.arm64/libgodotcoacd.ios.template_release.xcframework"
+windows.debug.x86_32 = "res://addons/godotcoacd/plugin/bin/windows.x86_32/libgodotcoacd.windows.template_debug.x86_32.dll"
+windows.release.x86_32 = "res://addons/godotcoacd/plugin/bin/windows.x86_32/libgodotcoacd.windows.template_release.x86_32.dll"
+windows.debug.x86_64 = "res://addons/godotcoacd/plugin/bin/windows.x86_64/libgodotcoacd.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://addons/godotcoacd/plugin/bin/windows.x86_64/libgodotcoacd.windows.template_release.x86_64.dll"
+windows.debug.arm64 = "res://addons/godotcoacd/plugin/bin/windows.arm64/libgodotcoacd.windows.template_debug.arm64.dll"
+windows.release.arm64 = "res://addons/godotcoacd/plugin/bin/windows.arm64/libgodotcoacd.windows.template_release.arm64.dll"
+linux.debug.x86_32 = "res://addons/godotcoacd/plugin/bin/linux.x86_32/libgodotcoacd.linux.template_debug.x86_32.so"
+linux.release.x86_32 = "res://addons/godotcoacd/plugin/bin/linux.x86_32/libgodotcoacd.linux.template_release.x86_32.so"
+linux.debug.x86_64 = "res://addons/godotcoacd/plugin/bin/linux.x86_64/libgodotcoacd.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://addons/godotcoacd/plugin/bin/linux.x86_64/libgodotcoacd.linux.template_release.x86_64.so"
+linux.debug.arm32 = "res://addons/godotcoacd/plugin/bin/linux.arm32/libgodotcoacd.linux.template_debug.arm32.so"
+linux.release.arm32 = "res://addons/godotcoacd/plugin/bin/linux.arm32/libgodotcoacd.linux.template_release.arm32.so"
+linux.debug.arm64 = "res://addons/godotcoacd/plugin/bin/linux.arm64/libgodotcoacd.linux.template_debug.arm64.so"
+linux.release.arm64 = "res://addons/godotcoacd/plugin/bin/linux.arm64/libgodotcoacd.linux.template_release.arm64.so"
+linux.debug.rv64 = "res://addons/godotcoacd/plugin/bin/linux.rv64/libgodotcoacd.linux.template_debug.rv64.so"
+linux.release.rv64 = "res://addons/godotcoacd/plugin/bin/linux.rv64/libgodotcoacd.linux.template_release.rv64.so"
+android.debug.x86_32 = "res://addons/godotcoacd/plugin/bin/android.x86_32/libgodotcoacd.android.template_debug.x86_32.so"
+android.release.x86_32 = "res://addons/godotcoacd/plugin/bin/android.x86_32/libgodotcoacd.android.template_release.x86_32.so"
+android.debug.x86_64 = "res://addons/godotcoacd/plugin/bin/android.x86_64/libgodotcoacd.android.template_debug.x86_64.so"
+android.release.x86_64 = "res://addons/godotcoacd/plugin/bin/android.x86_64/libgodotcoacd.android.template_release.x86_64.so"
+android.debug.arm32 = "res://addons/godotcoacd/plugin/bin/android.arm32/libgodotcoacd.android.template_debug.arm32.so"
+android.release.arm32 = "res://addons/godotcoacd/plugin/bin/android.arm32/libgodotcoacd.android.template_release.arm32.so"
+android.debug.arm64 = "res://addons/godotcoacd/plugin/bin/android.arm64/libgodotcoacd.android.template_debug.arm64.so"
+android.release.arm64 = "res://addons/godotcoacd/plugin/bin/android.arm64/libgodotcoacd.android.template_release.arm64.so"
+web.debug.threads.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32.threads=ON/libgodotcoacd.web.template_debug.wasm32.wasm"
+web.release.threads.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32.threads=ON/libgodotcoacd.web.template_release.wasm32.wasm"
+web.debug.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32.threads=OFF/libgodotcoacd.web.template_debug.wasm32.nothreads.wasm"
+web.release.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32.threads=OFF/libgodotcoacd.web.template_release.wasm32.nothreads.wasm"
 
 [dependencies]
 ios.debug = {
-	"res://addons/godotcoacd/plugin/bin/libgodot-cpp.ios.template_debug.xcframework": "",
-	"res://addons/godotcoacd/plugin/bin/libcoacd.ios.template_debug.xcframework": "",
-	"res://addons/godotcoacd/plugin/bin/libspdlog.ios.template_debug.xcframework": "",
-	"res://addons/godotcoacd/plugin/bin/libopenvdb.ios.template_debug.xcframework": "",
-	"res://addons/godotcoacd/plugin/bin/libtbb.ios.template_debug.xcframework": ""
+	"res://addons/godotcoacd/plugin/bin/ios.arm64/libgodot-cpp.ios.template_debug.xcframework": "",
+	"res://addons/godotcoacd/plugin/bin/ios.arm64/libcoacd.ios.template_debug.xcframework": "",
+	"res://addons/godotcoacd/plugin/bin/ios.arm64/libspdlog.ios.template_debug.xcframework": "",
+	"res://addons/godotcoacd/plugin/bin/ios.arm64/libopenvdb.ios.template_debug.xcframework": "",
+	"res://addons/godotcoacd/plugin/bin/ios.arm64/libtbb.ios.template_debug.xcframework": ""
 }
 ios.release = {
-	"res://addons/godotcoacd/plugin/bin/libgodot-cpp.ios.template_release.xcframework": "",
-	"res://addons/godotcoacd/plugin/bin/libcoacd.ios.template_release.xcframework": "",
-	"res://addons/godotcoacd/plugin/bin/libspdlog.ios.template_release.xcframework": "",
-	"res://addons/godotcoacd/plugin/bin/libopenvdb.ios.template_release.xcframework": "",
-	"res://addons/godotcoacd/plugin/bin/libtbb.ios.template_release.xcframework": ""
-}
-android.x86_64 = {
-	"res://addons/godotcoacd/plugin/bin/libomp.android.x86_64/libomp.so": ""
+	"res://addons/godotcoacd/plugin/bin/ios.arm64/libgodot-cpp.ios.template_release.xcframework": "",
+	"res://addons/godotcoacd/plugin/bin/ios.arm64/libcoacd.ios.template_release.xcframework": "",
+	"res://addons/godotcoacd/plugin/bin/ios.arm64/libspdlog.ios.template_release.xcframework": "",
+	"res://addons/godotcoacd/plugin/bin/ios.arm64/libopenvdb.ios.template_release.xcframework": "",
+	"res://addons/godotcoacd/plugin/bin/ios.arm64/libtbb.ios.template_release.xcframework": ""
 }
 android.x86_32 = {
-	"res://addons/godotcoacd/plugin/bin/libomp.android.x86_32/libomp.so": ""
+	"res://addons/godotcoacd/plugin/bin/android.x86_32/libomp.so": ""
 }
-android.arm64 = {
-	"res://addons/godotcoacd/plugin/bin/libomp.android.arm64/libomp.so": ""
+android.x86_64 = {
+	"res://addons/godotcoacd/plugin/bin/android.x86_64/libomp.so": ""
 }
 android.arm32 = {
-	"res://addons/godotcoacd/plugin/bin/libomp.android.arm32/libomp.so": ""
+	"res://addons/godotcoacd/plugin/bin/android.arm32/libomp.so": ""
 }
-windows.x86_64 = {
-	"res://addons/godotcoacd/plugin/bin/libomp.android.x86_64/vcomp140.dll": ""
+android.arm64 = {
+	"res://addons/godotcoacd/plugin/bin/android.arm64/libomp.so": ""
 }
 windows.x86_32 = {
-	"res://addons/godotcoacd/plugin/bin/libomp.android.x86_32/vcomp140.dll": ""
+	"res://addons/godotcoacd/plugin/bin/windows.x86_32/libomp.android.x86_32/vcomp140.dll": ""
+}
+windows.x86_64 = {
+	"res://addons/godotcoacd/plugin/bin/windows.x86_64/vcomp140.dll": ""
 }
 windows.arm64 = {
-	"res://addons/godotcoacd/plugin/bin/libomp.android.arm64/vcomp140.dll": ""
+	"res://addons/godotcoacd/plugin/bin/windows.arm64/libomp.android.arm64/vcomp140.dll": ""
 }
