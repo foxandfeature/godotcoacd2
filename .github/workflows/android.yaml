@@ -53,10 +53,9 @@ jobs:
       - name: Copy OpenMP runtime
         run: |
           OMP_SRC="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/${{ matrix.omp_arch }}/libomp.so"
-          OMP_DIR="build/godotcoacd_release/libomp.android.${{ matrix.omp_suffix }}"
+          OMP_DEST="build/godotcoacd_release/libomp.so"
 
-          mkdir -p "$OMP_DIR"
-          cp "$OMP_SRC" "$OMP_DIR/libomp.so"
+          cp "$OMP_SRC" "$OMP_DEST"
 
       - name: Prepare artifact
         shell: bash

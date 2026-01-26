@@ -34,10 +34,10 @@ android.debug.arm32 = "res://addons/godotcoacd/plugin/bin/android.arm32/libgodot
 android.release.arm32 = "res://addons/godotcoacd/plugin/bin/android.arm32/libgodotcoacd.android.template_release.arm32.so"
 android.debug.arm64 = "res://addons/godotcoacd/plugin/bin/android.arm64/libgodotcoacd.android.template_debug.arm64.so"
 android.release.arm64 = "res://addons/godotcoacd/plugin/bin/android.arm64/libgodotcoacd.android.template_release.arm64.so"
-web.debug.threads.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32.threads=ON/libgodotcoacd.web.template_debug.wasm32.wasm"
-web.release.threads.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32.threads=ON/libgodotcoacd.web.template_release.wasm32.wasm"
-web.debug.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32.threads=OFF/libgodotcoacd.web.template_debug.wasm32.nothreads.wasm"
-web.release.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32.threads=OFF/libgodotcoacd.web.template_release.wasm32.nothreads.wasm"
+web.debug.threads.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32/libgodotcoacd.web.template_debug.wasm32.wasm"
+web.release.threads.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32/libgodotcoacd.web.template_release.wasm32.wasm"
+web.debug.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32.nothreads/libgodotcoacd.web.template_debug.wasm32.nothreads.wasm"
+web.release.wasm32 = "res://addons/godotcoacd/plugin/bin/web.wasm32.nothreads/libgodotcoacd.web.template_release.wasm32.nothreads.wasm"
 
 [dependencies]
 ios.debug = {
@@ -67,11 +67,11 @@ android.arm64 = {
 	"res://addons/godotcoacd/plugin/bin/android.arm64/libomp.so": ""
 }
 windows.x86_32 = {
-	"res://addons/godotcoacd/plugin/bin/windows.x86_32/libomp.android.x86_32/vcomp140.dll": ""
+	"res://addons/godotcoacd/plugin/bin/windows.x86_32/vcomp140.dll": ""
 }
 windows.x86_64 = {
 	"res://addons/godotcoacd/plugin/bin/windows.x86_64/vcomp140.dll": ""
 }
 windows.arm64 = {
-	"res://addons/godotcoacd/plugin/bin/windows.arm64/libomp.android.arm64/vcomp140.dll": ""
+	"res://addons/godotcoacd/plugin/bin/windows.arm64/vcomp140.dll": ""
 }
