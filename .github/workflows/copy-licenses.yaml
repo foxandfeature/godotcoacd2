@@ -23,7 +23,7 @@ jobs:
         
       - name: Copy OMP Windows license
         run: |
-          ls "$env:VSINSTALLDIR\Licenses\"
+          ls "$env:VSINSTALLDIR\Licenses\1031"
           copy "$env:VSINSTALLDIR\Licenses\1031\ThirdPartyNotices.txt" licenses\omp-windows.txt
       
       - name: Set up Android SDK and NDK
