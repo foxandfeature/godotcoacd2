@@ -29,6 +29,10 @@ jobs:
   trigger-web:
     name: Build Web
     uses: ./.github/workflows/web.yaml
+  
+  trigger-licenses:
+    name: Copy Licenses
+    uses: ./.github/workflows/copy-licenses.yaml
 
   combine-artifacts:
     name: Combine All Artifacts
@@ -40,6 +44,7 @@ jobs:
       - trigger-ios
       - trigger-android
       - trigger-web
+      - trigger-licenses
 
     steps:
       - name: Checkout repository
@@ -50,6 +55,10 @@ jobs:
         with:
           path: plugin/addons/godotcoacd/plugin/bin
           merge-multiple: true
+      
+      - name: Move licenses folder
+        run: |
+          mv plugin/addons/godotcoacd/plugin/bin/licenses plugin/addons/godotcoacd/
 
       - name: Upload combined artifacts
         uses: actions/upload-artifact@v4
