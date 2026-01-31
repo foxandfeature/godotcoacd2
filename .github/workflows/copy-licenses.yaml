@@ -23,15 +23,15 @@ jobs:
         
       - name: Copy OMP Windows license
         run: |
-          ls "$env:VSINSTALLDIR\Licenses\1033"
-          copy "$env:VSINSTALLDIR\Licenses\1033\ThirdPartyNotices.txt" licenses\omp-windows.txt
+          ls "$env:VSINSTALLDIR/Licenses/1033"
+          copy "$env:VSINSTALLDIR/Licenses/1033/ThirdPartyNotices.txt" licenses/omp-windows.txt
       
       - name: Set up Android SDK and NDK
         uses: android-actions/setup-android@v2
 
       - name: Copy OMP Android license
         run: |
-          copy "$env:ANDROID_SDK_ROOT\ndk\28.1.13356709\toolchains\llvm\prebuilt\windows-x86_64\NOTICE" licenses\omp-android.txt
+          copy "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/windows-x86_64/NOTICE" licenses/omp-android.txt
       
       - name: Configure CMake
         run: >
@@ -39,46 +39,46 @@ jobs:
       
       - name: Copy CoACD license
         run: |
-          copy CoACD-godot-src\LICENSE licenses\CoACD.txt
+          copy CoACD-godot-src/LICENSE licenses/CoACD.txt
 
       - name: Copy Boost license
         run: |
-          copy build_deps\boost-src\LICENSE_1_0.txt licenses\Boost.txt
+          copy build_deps/boost-src/LICENSE_1_0.txt licenses/Boost.txt
 
       - name: Copy OpenVDB license
         run: |
-          copy build_deps\openvdb-src\LICENSE licenses\OpenVDB.txt
+          copy build_deps/openvdb-src/LICENSE licenses/OpenVDB.txt
 
       - name: Copy SPDlog license
         run: |
-          copy build_deps\spdlog-src\LICENSE licenses\SPDlog.txt
+          copy build_deps/spdlog-src/LICENSE licenses/SPDlog.txt
 
       - name: Copy TBB licenses
         run: |
-          copy build_deps\tbb-src\third-party-programs.txt licenses\TBB-third-party.txt
-          copy build_deps\tbb-src\LICENSE.txt licenses\TBB.txt
+          copy build_deps/tbb-src/third-party-programs.txt licenses/TBB-third-party.txt
+          copy build_deps/tbb-src/LICENSE.txt licenses/TBB.txt
 
       - name: Copy Zlib header (lines 1-29)
         run: |
-          powershell -Command "Get-Content build_deps\zlib-src\zlib.h | Select-Object -First 29 | Set-Content licenses\Zlib.txt"
+          powershell -Command "Get-Content build_deps/zlib-src/zlib.h | Select-Object -First 29 | Set-Content licenses/Zlib.txt"
 
       - name: Copy CDT license
         run: |
-          copy CoACD-godot-src\3rd\cdt\LICENSE licenses\CDT.txt
+          copy CoACD-godot-src/3rd/cdt/LICENSE licenses/CDT.txt
 
       - name: Copy Bullet3 headers
         run: |
-          powershell -Command "Get-Content CoACD-godot-src\src\btConvexHull\btAlignedAllocator.cpp | Select-Object -First 14 | Set-Content licenses\Bullet3-0.txt"
-          powershell -Command "Get-Content CoACD-godot-src\src\btConvexHull\btConvexHullComputer.cpp | Select-Object -First 13 | Set-Content licenses\Bullet3-1.txt"
-          powershell -Command "Get-Content CoACD-godot-src\src\btConvexHull\btMinMax.h | Select-Object -First 13 | Set-Content licenses\Bullet3-2.txt"
+          powershell -Command "Get-Content CoACD-godot-src/src/btConvexHull/btAlignedAllocator.cpp | Select-Object -First 14 | Set-Content licenses/Bullet3-0.txt"
+          powershell -Command "Get-Content CoACD-godot-src/src/btConvexHull/btConvexHullComputer.cpp | Select-Object -First 13 | Set-Content licenses/Bullet3-1.txt"
+          powershell -Command "Get-Content CoACD-godot-src/src/btConvexHull/btMinMax.h | Select-Object -First 13 | Set-Content licenses/Bullet3-2.txt"
       
       - name: Copy intersection.h header
         run: |
-          powershell -Command "Get-Content CoACD-godot-src\src\intersection.h | Select-Object -Skip 12 -First 5 | Set-Content licenses\intersection_h.txt"
+          powershell -Command "Get-Content CoACD-godot-src/src/intersection.h | Select-Object -Skip 12 -First 5 | Set-Content licenses/intersection_h.txt"
 
       - name: Copy Nanoflann header (lines 1-31)
         run: |
-          powershell -Command "Get-Content CoACD-godot-src\src\nanoflann.hpp | Select-Object -First 31 | Set-Content licenses\Nanoflann.txt"
+          powershell -Command "Get-Content CoACD-godot-src/src/nanoflann.hpp | Select-Object -First 31 | Set-Content licenses/Nanoflann.txt"
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
