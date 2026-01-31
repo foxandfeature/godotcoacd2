@@ -63,6 +63,11 @@ set_target_properties(godotcoacd PROPERTIES
     CXX_STANDARD 17
 )
 
+if(ANDROID)
+    target_compile_options(godotcoacd PRIVATE -fopenmp -static-openmp)
+    target_link_options(godotcoacd PRIVATE -fopenmp -static-openmp)
+endif()
+
 target_link_libraries(godotcoacd
     PRIVATE
         godot-cpp
