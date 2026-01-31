@@ -4,8 +4,6 @@ on:
   push:
   pull_request:
   workflow_dispatch:
-  release:
-    types: [published]
 
 jobs:
   trigger-macos:
@@ -58,10 +56,3 @@ jobs:
         with:
           name: godotcoacd
           path: plugin
-
-      - name: Upload to Release (if release)
-        if: github.event_name == 'release'
-        uses: softprops/action-gh-release@v1
-        with:
-          files: addons
-          token: ${{ secrets.GITHUB_TOKEN }}
