@@ -13,25 +13,29 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-      
-      - name: Setup MSVC
-        uses: ilammy/msvc-dev-cmd@v1
-      
-      - name: Set up Android SDK and NDK
-        uses: android-actions/setup-android@v2
-      
+
       - name: Create license folder
         run: |
           mkdir licenses
-
+    
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        
       - name: Copy OMP Windows license
         run: |
-          copy "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Licenses\1031\ThirdPartyNotices.txt" licenses\omp-windows.txt
+          copy "%VSINSTALLDIR%\Licenses\1031\ThirdPartyNotices.txt" licenses\omp-windows.txt
+      
+      - name: Set up Android SDK and NDK
+        uses: android-actions/setup-android@v2
 
       - name: Copy OMP Android license
         run: |
-          copy "C:\Users\Lasse\AppData\Local\Android\Sdk\ndk\28.1.13356709\toolchains\llvm\prebuilt\windows-x86_64\NOTICE" licenses\omp-android.txt
-
+          copy "%ANDROID_SDK_ROOT%\ndk\28.1.13356709\toolchains\llvm\prebuilt\windows-x86_64\NOTICE" licenses\omp-android.txt
+      
+      - name: Configure CMake
+        run: >
+          cmake -S . -B build
+      
       - name: Copy CoACD license
         run: |
           copy CoACD-godot-src\LICENSE licenses\CoACD.txt
