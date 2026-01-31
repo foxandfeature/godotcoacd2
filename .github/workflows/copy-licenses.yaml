@@ -31,7 +31,7 @@ jobs:
 
       - name: Copy OMP Android license
         run: |
-          copy "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/windows-x86_64/NOTICE" licenses/omp-android.txt
+          copy "$env:ANDROID_NDK_HOME/toolchains/llvm/prebuilt/windows-x86_64/NOTICE" licenses/omp-android.txt
       
       - name: Configure CMake
         run: >
