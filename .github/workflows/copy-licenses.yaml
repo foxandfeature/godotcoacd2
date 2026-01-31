@@ -23,14 +23,14 @@ jobs:
         
       - name: Copy OMP Windows license
         run: |
-          copy "%VSINSTALLDIR%\Licenses\1031\ThirdPartyNotices.txt" licenses\omp-windows.txt
+          copy "$env:VSINSTALLDIR\Licenses\1031\ThirdPartyNotices.txt" licenses\omp-windows.txt
       
       - name: Set up Android SDK and NDK
         uses: android-actions/setup-android@v2
 
       - name: Copy OMP Android license
         run: |
-          copy "%ANDROID_SDK_ROOT%\ndk\28.1.13356709\toolchains\llvm\prebuilt\windows-x86_64\NOTICE" licenses\omp-android.txt
+          copy "$env:ANDROID_SDK_ROOT\ndk\28.1.13356709\toolchains\llvm\prebuilt\windows-x86_64\NOTICE" licenses\omp-android.txt
       
       - name: Configure CMake
         run: >
