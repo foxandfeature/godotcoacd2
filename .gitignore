@@ -6,3 +6,4 @@ plugin/addons/godotcoacd/plugin/bin/*
 !plugin/addons/godotcoacd/plugin/bin/godotcoacd.gdextension
 plugin/**/*.uid
 **/.DS_Store
+demo/*
