@@ -34,7 +34,7 @@ endif()
 # Dependencies
 # ------------------------------------------------------------------------------
 
-add_subdirectory(CoACD-godot-src)
+add_subdirectory(CoACD)
 add_subdirectory(godot-cpp)
 
 # Fetch GodotCPP suffix

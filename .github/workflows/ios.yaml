@@ -51,7 +51,7 @@ jobs:
           create_xcframework build/bin/libgodot-cpp.ios.${{ matrix.target }}.arm64.a \
             libgodot-cpp.ios.${{ matrix.target }}.xcframework
 
-          create_xcframework build/CoACD-godot-src/Release-iphoneos/libcoacd.a \
+          create_xcframework build/CoACD/Release-iphoneos/libcoacd.a \
             libcoacd.ios.${{ matrix.target }}.xcframework
 
           create_xcframework build/_deps/spdlog-build/Release-iphoneos/libspdlog.a \

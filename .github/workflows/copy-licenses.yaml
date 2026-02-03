@@ -24,25 +24,25 @@ jobs:
 
       - name: Copy CoACD license
         run: |
-          copy CoACD-godot-src/LICENSE artifact/licenses/third-party/CoACD.txt
+          copy CoACD/LICENSE artifact/licenses/third-party/CoACD.txt
 
       - name: Copy CDT license
         run: |
-          copy CoACD-godot-src/3rd/cdt/LICENSE artifact/licenses/third-party/CDT.txt
+          copy CoACD/3rd/cdt/LICENSE artifact/licenses/third-party/CDT.txt
 
       - name: Copy Bullet3 headers
         run: |
-          powershell -Command "Get-Content CoACD-godot-src/src/btConvexHull/btAlignedAllocator.cpp | Select-Object -First 14 | Set-Content artifact/licenses/third-party/Bullet3-0.txt"
-          powershell -Command "Get-Content CoACD-godot-src/src/btConvexHull/btConvexHullComputer.cpp | Select-Object -First 13 | Set-Content artifact/licenses/third-party/Bullet3-1.txt"
-          powershell -Command "Get-Content CoACD-godot-src/src/btConvexHull/btMinMax.h | Select-Object -First 13 | Set-Content artifact/licenses/third-party/Bullet3-2.txt"
+          powershell -Command "Get-Content CoACD/src/btConvexHull/btAlignedAllocator.cpp | Select-Object -First 14 | Set-Content artifact/licenses/third-party/Bullet3-0.txt"
+          powershell -Command "Get-Content CoACD/src/btConvexHull/btConvexHullComputer.cpp | Select-Object -First 13 | Set-Content artifact/licenses/third-party/Bullet3-1.txt"
+          powershell -Command "Get-Content CoACD/src/btConvexHull/btMinMax.h | Select-Object -First 13 | Set-Content artifact/licenses/third-party/Bullet3-2.txt"
       
       - name: Copy intersection.h header
         run: |
-          powershell -Command "Get-Content CoACD-godot-src/src/intersection.h | Select-Object -Skip 12 -First 5 | Set-Content artifact/licenses/third-party/intersection_h.txt"
+          powershell -Command "Get-Content CoACD/src/intersection.h | Select-Object -Skip 12 -First 5 | Set-Content artifact/licenses/third-party/intersection_h.txt"
 
       - name: Copy Nanoflann header (lines 1-31)
         run: |
-          powershell -Command "Get-Content CoACD-godot-src/src/nanoflann.hpp | Select-Object -First 31 | Set-Content artifact/licenses/third-party/Nanoflann.txt"
+          powershell -Command "Get-Content CoACD/src/nanoflann.hpp | Select-Object -First 31 | Set-Content artifact/licenses/third-party/Nanoflann.txt"
 
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1

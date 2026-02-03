@@ -5,8 +5,8 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/base_sink.h>
 
-#include "../CoACD-godot-src/public/coacd.h"
-#include "../CoACD-godot-src/src/model_obj.h"
+#include "../CoACD/public/coacd.h"
+#include "../CoACD/src/model_obj.h"
 
 using namespace godot;
 

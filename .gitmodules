@@ -2,6 +2,7 @@
 	path = godot-cpp
 	url = https://github.com/foxandfeature/godot-cpp
 	branch = 4.5
-[submodule "CoACD-godot-src"]
-	path = CoACD-godot-src
-	url = https://github.com/foxandfeature/CoACD-godot-src
+[submodule "CoACD"]
+	path = CoACD
+	url = https://github.com/foxandfeature/CoACD
+	branch = godot
