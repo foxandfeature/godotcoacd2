@@ -6,7 +6,6 @@
 	<description>
 		The [CoACD] class provides access to the COACD convex decomposition pipeline.
 		It takes a 3D triangle mesh and produces a set of convex parts that approximate the original geometry while respecting user-defined concavity and preprocessing settings.
-		[b]This class requires a valid mesh resource to run decomposition.[/b]
 		[codeblocks]
 		[gdscript]
 		func _ready() -&gt; void:
@@ -43,7 +42,7 @@
 			<param index="1" name="settings" type="CoACDSettings" default="null" />
 			<description>
 				Runs the convex decomposition algorithm using the given [code]mesh[/code] and [code]settings[/code]. Returns an [Array] of convex hulls, where each element is a [ConvexPolygonShape3D] that represents one decomposed part of the input mesh.
-				The quality and number of convex hulls depend heavily on the values set in [CoACDSettings].
+				The quality and number of convex hulls depend on the values set in [CoACDSettings].
 				If logging is enabled, the method emits [signal new_log] for each log message generated during processing.
 				[b]Important Mesh Requirements:[/b] The input mesh must be watertight and manifold to ensure proper decomposition. Every edge should appear exactly twice (once in each direction) so that triangles have consistent winding and the geometry has no gaps or holes.
 			</description>
