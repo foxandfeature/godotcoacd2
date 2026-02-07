@@ -120,3 +120,5 @@ add_custom_command(
         "$<TARGET_FILE:godotcoacd>"
         "${GODOT_PROJECT_BINARY_DIR}/$<TARGET_FILE_NAME:godotcoacd>"
 )
+
+message(STATUS "CMAKE_SYSTEM_PROCESSOR = ${CMAKE_SYSTEM_PROCESSOR}")
